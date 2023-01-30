@@ -1,2 +1,2 @@
 # Nisshi
-Senior Project Group Borealis' work on creating a journal-based web application using the FReMP stack.
+Senior Project Group Borealis' repository for a journal-based web application using the FReMP stack.
