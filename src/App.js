@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import React, {useState} from 'react'
 
@@ -22,8 +21,8 @@ function App() {
       <div className="App-content">
         <h7>Please enter in your text below and it will display at the bottom of the screen.</h7>
         <p></p>
-        <input type="text" onChange={getData} 
-        style={{height:"300px", width:"500px", top:"100px"}}/>
+        <textarea placeholder="Type here..." onChange={getData} 
+        style={{height:"300px", width:"500px", wordWrap:"break-word", wordBreak:"break-all", fontFamily:"serif"}}/>
         <h3>{data}</h3>
       </div>
       <div className="App-content">
