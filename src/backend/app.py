@@ -1,5 +1,5 @@
 from flask import Flask, redirect, url_for, render_template
-from settings import app
+from backend.settings import app
 from pymongo import MongoClient
 from flask_cors import CORS, cross_origin
 import json

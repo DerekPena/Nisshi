@@ -1,4 +1,4 @@
-from settings import db
+from backend.settings import db
 
 class db_Noun(db.Model):
     __tablename__ = "VocabularyList" #add/modify later, placeholder table name.
