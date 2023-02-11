@@ -1,9 +1,13 @@
 # Nisshi
-Senior Project Group Borealis' repository for a journal-based web application using the FReMP stack.
+Senior Project Group Borealis' repository for a journal-based web application using the FReMP stack. Designed to be a supplement to Japanese-learning individuals.
 
-To run: 
+## Set-Up Nisshi
+1. In a terminal (not yet created a folder), "mkdir Nisshi"
+2. "git clone https://github.com/DerekPena/Nisshi.git Nisshi"
+3. Open git folder in code editor; "pip3 install -r requirements.txt"
+4. If node_modules folder has not been installed, resolve react-scripts error with "npm install"
+
+## Running Nisshi
 - In your terminal, navigate to the Nisshi folder in your file directory
-- Run the command "pip3 install -r requirements.txt"
-- If node_modules folder has not been installed, run "npm install" to resolve react-scripts error.
 - To start the application, run the command "npm start"
 - A browser window should open with the webpage
