@@ -1,4 +1,4 @@
-import './App.css';
+import './frontend/App.css';
 import React, {useState} from 'react'
 
 function App() {
