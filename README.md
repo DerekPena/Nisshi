@@ -11,5 +11,5 @@ Senior Project Group Borealis' repository for a journal-based web application us
 ## Running Nisshi
 - In your terminal, navigate to the Nisshi folder in your file directory
 - To start the application, run the command "npm start"
-- To run the application in Flask, "flask run"; exit with Ctrl+C
+- To run the application in Flask, "python app.py"; exit with Ctrl+C
 - A browser window should open with the webpage
