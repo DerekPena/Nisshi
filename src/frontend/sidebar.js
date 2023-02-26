@@ -5,20 +5,25 @@ import './sidebar.css';
 export default props => {
   return (
     <Menu>
-      <a className="menu-item" href="/">
-        Home
+      <a className="title" href="/"> 
+        Home <br/>
+            <p className="subtitle">ホメパゲ</p>
       </a>
-      <a className="menu-item" href="/login">
-        Login
+      <a className="title" href="/login">
+        Login <br/>
+            <p className="subtitle">ログイン</p>
       </a>
-      <a className="menu-item" href="/entries">
-        Entries
+      <a className="title" href="/entries">
+        Entries <br/>
+            <p className="subtitle">きにゅう</p>
       </a>
-      <a className="menu-item" href="/exercises">
-        Exercises
+      <a className="title" href="/exercises">
+        Exercises <br/>
+            <p className="subtitle">れんしゅう</p>
       </a>
-      <a className="menu-item" href="/journal">
-        Journal
+      <a className="title" href="/journal">
+        Journal <br/>
+            <p className="subtitle">にっし</p>
       </a>
     </Menu>
   );
