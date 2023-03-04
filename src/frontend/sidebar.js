@@ -6,24 +6,24 @@ export default props => {
   return (
     <Menu>
       <a className="title" href="/"> 
-        Home <br/>
-            <p className="subtitle">ホメパゲ</p>
+        Home
+        <p className="subtitle">ホメパゲ</p>
       </a>
       <a className="title" href="/login">
-        Login <br/>
-            <p className="subtitle">ログイン</p>
+        Login
+        <p className="subtitle">ログイン</p>
       </a>
       <a className="title" href="/entries">
-        Entries <br/>
-            <p className="subtitle">きにゅう</p>
+        Entries
+        <p className="subtitle">きにゅう</p>
       </a>
       <a className="title" href="/exercises">
-        Exercises <br/>
-            <p className="subtitle">れんしゅう</p>
+        Exercises
+        <p className="subtitle">れんしゅう</p>
       </a>
       <a className="title" href="/journal">
-        Journal <br/>
-            <p className="subtitle">にっし</p>
+        Journal
+        <p className="subtitle">にっし</p>
       </a>
     </Menu>
   );
