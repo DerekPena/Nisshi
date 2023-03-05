@@ -22,8 +22,8 @@ function App() {
       
 
       <header className="App-header" onClick={() => toggleForm('mainHome')}>
-        <h1 >NISSHI</h1> 
-        <h3 className="sub-header">日誌</h3>
+        <a>NISSHI</a> 
+        <a className="sub-header">日誌</a>
       </header>
 
       <div className="App-content" id="body">
