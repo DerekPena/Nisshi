@@ -5,11 +5,11 @@ import './sidebar.css';
 export default props => {
   return (
     <Menu>
-      <a className="title" href="/"> 
+      <a className="title" onClick={() => props.onFormSwitch('home')}> 
         Home
         <p className="subtitle">ホメパゲ</p>
       </a>
-      <a className="title" href="/login">
+      <a className="title" onClick={() => props.onFormSwitch('login')}>
         Login
         <p className="subtitle">ログイン</p>
       </a>

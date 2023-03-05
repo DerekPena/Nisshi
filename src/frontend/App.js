@@ -1,13 +1,20 @@
 import './App.css';
 import React, {useState} from 'react'
-import Sidebar from './sidebar';
+import Sidebar  from './sidebar';
 import Journal from './journal'
+import Login from './login';
 
 function App() {
 
+  const [currentForm, setCurrentForm] = useState('home');
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+  }
+
   return (
     <div className="App">
-      <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
+      <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
 
       <header className="App-header">
         <h1>NISSHI</h1> 
@@ -15,9 +22,9 @@ function App() {
       </header>
 
       <div className="App-content" id="body">
-        <h5>Please enter in your text below and it will display at the bottom of the screen.</h5>
-
-        <Journal />
+        {
+          currentForm === "home" ? <Journal /> : <Login/>
+        }
       </div>
 
     </div>

@@ -31,7 +31,9 @@ export default props => {
   }
 
   return (
+    
     <form onSubmit = {handleSave} method="post" action='http://localhost:5000/post'>
+      <h5>Please enter in your text below and it will display at the bottom of the screen.</h5>
       <textarea 
         placeholder="Title..."
         id = "journal_title" 
@@ -39,7 +41,6 @@ export default props => {
         style={{height:"30px", width:"200px", wordWrap:"break-word", wordBreak:"break-all", fontFamily:"serif"}}
       />
       <h3>{title}</h3>
-
       <textarea 
         placeholder="Type here..."
         name = "journal_entry"
