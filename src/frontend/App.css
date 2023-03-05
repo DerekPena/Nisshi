@@ -1,25 +1,36 @@
 .App {
   text-align: center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  background-color: #006189;
 }
 
 .App-header {
   cursor: pointer;
-  background-color: #006189;
   max-height: 1vh;
+  max-width: fit-content;
+  text-align: center;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  font-size: calc(8px + 2vmin);
+  font-size: calc(6px + 2vmin);
   color: white;
+  transition: color 0.2s;
+}
+
+.sub-header{
+  font-size: calc(4px + 2vmin);
+  color: #ffb400;
+  transition: color 0.2s;
+}
+
+.App-header:hover {
+  color: grey;
+}
+
+.sub-header:hover {
+  color: rgba(134, 94, 0, 0.962)
 }
 
 .App-content {
-  background-color: #006189;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
