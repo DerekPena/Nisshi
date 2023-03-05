@@ -23,7 +23,7 @@ function App() {
 
       <div className="App-content" id="body">
         {
-          currentForm === "home" ? <Journal /> : <Login/>
+          currentForm === "home" ? <Journal /> : currentForm === "login" ? <Login/> : <Journal />
         }
       </div>
 
