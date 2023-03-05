@@ -5,6 +5,9 @@ import Journal from './journal'
 import Login from './login';
 import Register from './register';
 import Startpage from './startpage';
+import Account from './account';
+import Entry from './entry';
+import Exercise from './exercise';
 
 function App() {
 
@@ -29,7 +32,9 @@ function App() {
 
       <div className="App-content" id="body">
         {
-          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : currentForm === "register" ? <Register onFormSwitch={toggleForm}/>: <Startpage onFormSwitch={toggleForm}/>
+          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : 
+          currentForm === "register" ? <Register onFormSwitch={toggleForm}/> : currentForm == "account" ? <Account /> :
+          currentForm == "entry" ? <Entry /> : currentForm == "exercise" ? <Exercise /> : <Startpage onFormSwitch={toggleForm}/>
         }
       </div>
 

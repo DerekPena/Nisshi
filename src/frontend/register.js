@@ -23,6 +23,8 @@ export default props => {
             <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your email" id="email" name="email"/>
             <label for="password" className="label">Password: </label>
             <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Your password" id="password" name="password"/>
+            
+            {/*Need to determine someway to obtain input from radio buttons*/}
             <div className="radio-button">
                 <input type="radio" value="Teacher" name="userType" /> Teacher
                 <p></p>

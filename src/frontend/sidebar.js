@@ -5,15 +5,15 @@ import './sidebar.css';
 export default props => {
   return (
     <Menu>
-      <a className="title" onClick={() => props.onFormSwitch('userHome')}> 
+      <a className="title" onClick={() => props.onFormSwitch('account')}> 
         Account
         <p className="subtitle">アカウント</p>
       </a>
-      <a className="title" onClick={() => props.onFormSwitch('userHome')}>
+      <a className="title" onClick={() => props.onFormSwitch('entry')}>
         Entries
         <p className="subtitle">きにゅう</p>
       </a>
-      <a className="title" onClick={() => props.onFormSwitch('userHome')}>
+      <a className="title" onClick={() => props.onFormSwitch('exercise')}>
         Exercises
         <p className="subtitle">れんしゅう</p>
       </a>
