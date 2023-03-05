@@ -9,6 +9,7 @@
 }
 
 .App-header {
+  cursor: pointer;
   background-color: #006189;
   max-height: 1vh;
   display: flex;
