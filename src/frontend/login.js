@@ -7,16 +7,19 @@ export default props => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
+        //REMOVE CONSOLE LOGS LATER FOR SECURITY PURPOSES
+        console.log("Email:", email);
+        console.log("Password:", pass);
+        props.onFormSwitch('userHome')
     }
 
     return (
-        <form className="login-form">
+        <form onSubmit={handleSubmit} className="login-form">
             <label for="email" className="label">Email: </label>
             <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your email" id="email" name="email"/>
             <label for="password" className="label">Password: </label>
             <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Your password" id="password" name="password"/>
-            <button className="loginButton">Log In</button>
+            <button type="submit" className="loginButton">Log In</button>
         </form>
     )
 }

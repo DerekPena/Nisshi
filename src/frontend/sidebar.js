@@ -6,22 +6,18 @@ export default props => {
   return (
     <Menu>
       <a className="title" onClick={() => props.onFormSwitch('userHome')}> 
-        Home
-        <p className="subtitle">ホメパゲ</p>
+        Account
+        <p className="subtitle">アカウント</p>
       </a>
-      <a className="title" onClick={() => props.onFormSwitch('login')}>
-        Login
-        <p className="subtitle">ログイン</p>
-      </a>
-      <a className="title">
+      <a className="title" onClick={() => props.onFormSwitch('userHome')}>
         Entries
         <p className="subtitle">きにゅう</p>
       </a>
-      <a className="title">
+      <a className="title" onClick={() => props.onFormSwitch('userHome')}>
         Exercises
         <p className="subtitle">れんしゅう</p>
       </a>
-      <a className="title">
+      <a className="title" onClick={() => props.onFormSwitch('userHome')}>
         Journal
         <p className="subtitle">にっし</p>
       </a>

@@ -17,7 +17,7 @@ function App() {
     <div className="App">
 
       {
-        currentForm === "mainHome" ? <a/> : <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
+        currentForm === "mainHome" ? <a/> : currentForm === "login" ? <a/> : currentForm === "register" ? <a/>  : <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
       }
       
 
@@ -28,7 +28,7 @@ function App() {
 
       <div className="App-content" id="body">
         {
-          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login/> : <Mainhome onFormSwitch={toggleForm}/>
+          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Mainhome onFormSwitch={toggleForm}/>
         }
       </div>
 
