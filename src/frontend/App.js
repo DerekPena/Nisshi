@@ -3,11 +3,12 @@ import React, {useState} from 'react'
 import Sidebar  from './sidebar';
 import Journal from './journal'
 import Login from './login';
-import Mainhome from './mainhome';
+import Register from './register';
+import Startpage from './startpage';
 
 function App() {
 
-  const [currentForm, setCurrentForm] = useState('mainHome');
+  const [currentForm, setCurrentForm] = useState('startpage');
 
   const toggleForm = (formName) => {
     setCurrentForm(formName);
@@ -17,18 +18,18 @@ function App() {
     <div className="App">
 
       {
-        currentForm === "mainHome" ? <a/> : currentForm === "login" ? <a/> : currentForm === "register" ? <a/>  : <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
+        currentForm === "startpage" ? <a/> : currentForm === "login" ? <a/> : currentForm === "register" ? <a/>  : <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
       }
       
 
-      <header className="App-header" onClick={() => toggleForm('mainHome')}>
+      <header className="App-header" onClick={() => toggleForm('startpage')}>
         <a>NISSHI</a> 
         <a className="sub-header">日誌</a>
       </header>
 
       <div className="App-content" id="body">
         {
-          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : <Mainhome onFormSwitch={toggleForm}/>
+          currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm}/> : currentForm === "register" ? <Register onFormSwitch={toggleForm}/>: <Startpage onFormSwitch={toggleForm}/>
         }
       </div>
 

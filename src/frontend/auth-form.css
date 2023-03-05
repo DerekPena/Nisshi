@@ -1,7 +1,17 @@
-.mainhome {
+.login-form{
     display: flex;
     flex-direction: column;
-    max-width: 60vh;
+    width: 250px;
+    color: #ffb400;
+}
+
+.label{
+    text-align: left;
+    padding-bottom: 5px;
+}
+
+.input-field {
+    margin-bottom: 25px;
 }
 
 .button {
@@ -13,4 +23,8 @@
 
 .button:hover{
     background-color: rgba(134, 94, 0, 0.962)
+}
+
+.radio-button {
+    padding-bottom: 18px;
 }
