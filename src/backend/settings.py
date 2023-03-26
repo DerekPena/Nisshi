@@ -3,5 +3,14 @@ from pymongo import MongoClient
 
 app = Flask(__name__)
 
-mongoClient = MongoClient('mongodb://127.0.0.1:27017')
-db = mongoClient.get_database('names_db')
+#MongoDB Configuration & Connection
+uri = "mongodb+srv://nisshi_admin:N1ssH1_UF@nisshi.xi9dgsc.mongodb.net/test"
+mongoClient = MongoClient(uri)
+
+#Nisshi Database
+db = mongoClient['nisshi']
+
+#Collections in Nisshi Database
+vocabList = db['VocabularyList']
+userList = db['UserList']
+journalList = db['JournalList']

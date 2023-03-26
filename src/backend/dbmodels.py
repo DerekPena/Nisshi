@@ -144,5 +144,22 @@ class db_Lesson(db.Model):
     __tablename__ = "VocabularyList"
     #TODO: a word object may be involved with several lessons. create a class relationship of word-lesson to bind them.
 
+
+class db_User(db.Model):
+    __tablename__ = "UserList"
+    usr_id = db.Column(db.Integer, primary_key =True)
+    name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
+    is_Student = db.Column(db.Boolean, nullable=False)
+
+
+class db_Journal(db.Model):
+    __tablename__ = "JournalList"
+    usr_id = db.Column(db.Integer)
+    journal_id = db.Column(db.Integer, primary_key=True)
+    journal_title = db.Column(db.String(50), nullable=False)
+    entry = db.Column(db.Text, nullable=False)
+
 #THOUGHTS: contemplated on creating a single Word class, but would not benefit certain word types that require conjugation 
 #+ could be convulated later on.
