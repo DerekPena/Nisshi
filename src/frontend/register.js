@@ -10,23 +10,15 @@ export default props => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch("http://localhost:5000/users",{
+        fetch("http://localhost:5000/register",{
             method: 'POST',
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify({username, email, pass, userType})
         })
-        .then(response => response.json())
-        .then(username => {console.log("Name: ", username)})
-        .then(email => {console.log("Email: ", email)})
-        .then(password => {console.log("Password: ", password)})
-        .then(userType => {console.log("User Type: ", userType)})
-        .catch(error => {console.log("Error: ", error)})
+            .then(response => response.json())
+            .then(data => {localStorage.setItem("id", data["id"])})
+            .catch(error => {console.log("Error: ", error)})
         
-        //REMOVE CONSOLE LOGS LATER FOR SECURITY PURPOSES
-        // console.log("Name:", username);
-        // console.log("Email:", email);
-        // console.log("Password:", pass);
-        // console.log("User Type:", userType)
         props.onFormSwitch('userHome')
     }
 

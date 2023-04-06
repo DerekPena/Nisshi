@@ -2,13 +2,12 @@ from flask import Flask, redirect, url_for, render_template, request, jsonify
 from src.backend.settings import app, vocabList, userList, journalList
 from pymongo import MongoClient
 from flask_cors import CORS, cross_origin
-import json, datetime, sys, logging
+from datetime import datetime
+import json, sys, logging, uuid, random, string
 
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-journal_title = None
-journal_entry = None
 
 @app.route('/')
 def home():
@@ -23,10 +22,10 @@ def test():
         'date':x
     }
 
-@app.route('/users', methods=["GET", "POST"])
+@app.route('/register', methods=["POST"])
 @cross_origin(origin="*")
-def data():
-    #Create new User ; Add to database
+def register():
+    #Add new user info to MongoDB
     if request.method == "POST":
         body = request.json
         name = body["username"]
@@ -36,8 +35,11 @@ def data():
             is_Student = True
         elif body["userType"] == "Teacher":
             is_Student = False
+        #Generate a random 10-digit id
+        id = ''.join(random.choices(string.digits, k=10))
 
         userList.insert_one({
+            "id": id,
             "name": name,
             "email": email,
             "password": password,
@@ -46,54 +48,101 @@ def data():
 
         return jsonify({
             "status": "User is created and stored in MongoDB",
+            "id": id,
             "name": name,
             "email": email,
             "password": password,
             "is_Student": is_Student
         })
 
-    #User login ; Access user info from database
-    if request.method == "GET":
-        usrData = userList.find()
-        dataJson = []
-        for data in usrData:
-            usr_id = data["_id"]
-            name = data["name"]
-            email = data["email"]
-            password = data["password"]
-            is_Student = data["is_Student"]
-
-            dataDict = {
-                "id": str(usr_id),
-                "name":name,
-                "email":email,
-                "password":password,
-                "is_Student":is_Student
-            }
-            dataJson.append(dataDict)
-
-        print(dataJson)
-        return jsonify(dataJson)
-
-@app.route('/entry', methods=["GET", "POST"])
+@app.route('/login', methods=["POST"])
 @cross_origin(origin="*")
-def entry():
+def login():
+    #User login ; Make sure user exists in database before accepting/rejecting login
+    if request.method == "POST":
+        body = request.json
+        email = body["email"]
+        password = body["pass"]
+
+        usrData = userList.find_one({"email": email, "password": password})
+
+        #Add logic to check if correct email & password
+
+        data = {
+            "id": usrData["id"],
+            "name": usrData["name"],
+            "email": usrData["email"],
+            "password": usrData["password"],
+            "is_Student": usrData["is_Student"]
+        }
+        app.logger.info(data)
+
+        return jsonify({
+            "id": usrData["id"],
+            "name": usrData["name"],
+            "email": usrData["email"],
+            "password": usrData["password"],
+            "is_Student": usrData["is_Student"]
+        })
+
+@app.route('/journal', methods=["POST"])
+@cross_origin(origin="*")
+def journal():
     #Save journal entry to MongoDB
     if request.method == "POST":
         body = request.json
+        id = ''.join(random.choices(string.digits, k=10))
         title = body["title"]
         entry = body["entry"]
+        date = datetime.now().strftime("%m/%d/%y")
+        usr_id = body["id"]
 
         journalList.insert_one({
-            "journal_title": title,
+            "id": id,
+            "title": title,
             "entry": entry,
+            "date": date,
+            "usr_id": usr_id
         })
 
         return jsonify({
             "status": "Journal entry is saved to MongoDB",
-            "journal_title": title,
-            "entry": entry
+            "id": id,
+            "title": title,
+            "entry": entry,
+            "date":date,
+            "usr_id": usr_id
         })
+
+@app.route('/entry', methods=["POST"])
+@cross_origin(origin="*")
+def entry():
+    #UseUp the "usr_id" return a list of the user's journals
+    if request.method == "POST":
+        body = request.json
+        id = body["id"]
+
+        app.logger.info(id)
+
+        journals = journalList.find({"usr_id": id})
+        journalData = []
+
+        for journal in journals:
+            title = journal["journal_title"]
+            entry = journal["entry"]
+            date = journal["date"]
+
+            journalDict = {
+                "title": title,
+                "entry": entry,
+                "date": date,
+            }
+
+            journalData.append(journalDict)
+
+        app.logger.info(journalData)
+
+        return jsonify(journalData)
 
 if __name__ == "__main__":
     app.run(debug=True)
