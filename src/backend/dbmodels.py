@@ -147,7 +147,7 @@ class db_Lesson(db.Model):
 
 class db_User(db.Model):
     __tablename__ = "UserList"
-    usr_id = db.Column(db.Integer, primary_key =True)
+    id = db.Column(db.Integer, primary_key =True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
@@ -156,10 +156,10 @@ class db_User(db.Model):
 
 class db_Journal(db.Model):
     __tablename__ = "JournalList"
-    usr_id = db.Column(db.Integer)
-    journal_id = db.Column(db.Integer, primary_key=True)
-    journal_title = db.Column(db.String(50), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
     entry = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime)
+    usr_id = db.Column(db.Integer)
 
 #THOUGHTS: contemplated on creating a single Word class, but would not benefit certain word types that require conjugation 
 #+ could be convulated later on.

@@ -8,19 +8,17 @@ export default props => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        var usrData;
 
-        fetch("http://localhost:5000/users",{
-            method: 'GET',
-            eaders: {'Content-type': 'application/json'},
+        fetch("http://localhost:5000/login",{
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({email, pass})
         })
-        .then(response => response.json())
-        .then(email => {console.log("Email: ", email)})
-        .then(password => {console.log("Password: ", password)})
-        .catch(error => {console.log("Error: ", error)})
+            .then(response => response.json())
+            .then(data => {localStorage.setItem("id", data["id"])})
+            .catch(error => {console.log("Error: ", error)})
 
-        //REMOVE CONSOLE LOGS LATER FOR SECURITY PURPOSES
-        // console.log("Email:", email);
-        // console.log("Password:", pass);
         props.onFormSwitch('userHome')
     }
 

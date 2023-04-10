@@ -7,21 +7,18 @@ import './css/journal.css';
 export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
+    let id = localStorage.getItem("id")
 
     const handleSave = (e) => {
         e.preventDefault();
 
-        fetch("http://localhost:5000/entry", {
+        fetch("http://localhost:5000/journal", {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({ title, entry })
+            body: JSON.stringify({title, entry, id})
         })
             .then(response => response.json())
-            .then(title => { console.log("Title: ", title) })
-            .then(entry => { console.log("Entry: ", entry) })
             .catch(error => { console.log("Error: ", error) })
-
-        //console.log(`Journal, ${data}`);
     }
 
     function getTitle(val) {
