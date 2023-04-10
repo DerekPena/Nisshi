@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './auth-form.css';
+import './css/auth-form.css';
 
 export default props => {
     const [username, setName] = useState('');

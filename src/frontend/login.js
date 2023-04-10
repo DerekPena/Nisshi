@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import './auth-form.css';
+import './css/auth-form.css';
+import onFormSwitch from "./App.js";
 
 export default props => {
     const [email, setEmail] = useState('');

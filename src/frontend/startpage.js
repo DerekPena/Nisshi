@@ -1,5 +1,5 @@
 import React from 'react';
-import './startpage.css';
+import './css/startpage.css';
 
 export default props => {
     return(

@@ -1,4 +1,8 @@
 import React, { useState } from 'react'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import './css/journal.css';
+
 
 export default props => {
     const [title, setTitle] = useState(null)
@@ -34,20 +38,30 @@ export default props => {
 
         <form onSubmit={handleSave} method="post" action="http://localhost:5000/entry">
             <h5>Please enter in your text below and it will display at the bottom of the screen.</h5>
+            <div>
             <textarea
                 placeholder="Title..."
-                id="journal_title"
+                id="journal-title"
                 onChange={getTitle}
-                style={{ height: "30px", width: "200px", wordWrap: "break-word", wordBreak: "break-all", fontFamily: "serif" }}
+                style={{wordWrap: "break-word", wordBreak: "break-all", fontFamily: "serif" }}
             />
             <h3>{title}</h3>
-            <textarea
+            <ReactQuill  
+                id="Quill"
+                placeholder="Type Here..."
+                onChange={getEntry}
+            />
+
+            {/* <textarea
                 placeholder="Type here..."
                 name="journal_entry"
                 onChange={getEntry}
                 style={{ height: "300px", width: "500px", wordWrap: "break-word", wordBreak: "break-all", fontFamily: "serif" }}
-            />
+            /> */}
+
             <h5>{entry}</h5>
+
+            </div>
 
             <button type='submit'>Save entry</button>
         </form>

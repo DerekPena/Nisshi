@@ -16,7 +16,7 @@
   transition: color 0.2s;
 }
 
-.sub-header{
+#sub-header{
   font-size: calc(4px + 3vmin);
   color: #ffb400;
   transition: color 0.2s;
@@ -26,7 +26,7 @@
   color: grey;
 }
 
-.sub-header:hover {
+#sub-header:hover {
   color: rgba(134, 94, 0, 0.962)
 }
 
