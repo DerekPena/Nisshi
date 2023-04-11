@@ -6,9 +6,8 @@ export default props => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        var usrData;
 
         fetch("http://localhost:5000/login",{
             method: 'POST',
@@ -16,14 +15,23 @@ export default props => {
             body: JSON.stringify({email, pass})
         })
             .then(response => response.json())
-            .then(data => {localStorage.setItem("id", data["id"])})
-            .catch(error => {console.log("Error: ", error)})
+            .then(data => {
+                console.log(data)
+                if (data["error"] === "error"){
+                    console.log("Incorrect email or password")
+                }
 
-        props.onFormSwitch('userHome')
+                else {
+                    sessionStorage.setItem("id", data["id"])
+                    sessionStorage.setItem("name", data["name"])
+                    props.onFormSwitch('userHome')
+                }
+            })
+            .catch(error => {console.log("Error: ", error)})
     }
 
     return (
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleLogin} className="login-form">
             <label for="email" className="label">Email: </label>
             <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your email" id="email" name="email"/>
             <label for="password" className="label">Password: </label>

@@ -13,8 +13,22 @@ function App() {
 
     const [currentForm, setCurrentForm] = useState('startpage');
 
-    const toggleForm = (formName) => {
-        setCurrentForm(formName);
+    const toggleForm = (formName) => { 
+        //Handles clicking edit button for page switching    
+        if (sessionStorage.getItem("editButton") == "true"){
+            sessionStorage.setItem("editButton", "false")
+            setCurrentForm(formName);
+        }
+        //Handles default page switching
+        else{
+            sessionStorage.removeItem("title")
+            sessionStorage.removeItem("entry")
+            sessionStorage.removeItem("journal_id")
+            setCurrentForm(formName);
+        }
+
+        // Original:
+        // setCurrentForm(formName);
     }
 
     return (
@@ -32,9 +46,9 @@ function App() {
 
             <div className="App-content">
                 {
-                    currentForm === "userHome" ? <Journal /> : currentForm === "login" ? <Login onFormSwitch={toggleForm} /> :
+                    currentForm === "userHome" ? <Journal onFormSwitch={toggleForm}/> : currentForm === "login" ? <Login onFormSwitch={toggleForm} /> :
                     currentForm === "register" ? <Register onFormSwitch={toggleForm} /> : currentForm === "account" ? <Account /> :
-                    currentForm === "entry" ? <Entry /> : currentForm === "exercise" ? <Exercise /> : <Startpage onFormSwitch={toggleForm} />
+                    currentForm === "entry" ? <Entry onFormSwitch={toggleForm}/> : currentForm === "exercise" ? <Exercise /> : <Startpage onFormSwitch={toggleForm} />
                 }
             </div>
 

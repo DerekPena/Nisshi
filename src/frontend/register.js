@@ -7,7 +7,7 @@ export default props => {
     const [pass, setPass] = useState('');
     const [userType, setUserType] = useState('Student');
 
-    const handleSubmit = (e) => {
+    const handleRegister = (e) => {
         e.preventDefault();
 
         fetch("http://localhost:5000/register",{
@@ -16,14 +16,17 @@ export default props => {
             body: JSON.stringify({username, email, pass, userType})
         })
             .then(response => response.json())
-            .then(data => {localStorage.setItem("id", data["id"])})
+            .then(data => {
+                sessionStorage.setItem("id", data["id"])
+                sessionStorage.setItem("name", data["name"])
+            })
             .catch(error => {console.log("Error: ", error)})
         
         props.onFormSwitch('userHome')
     }
 
     return (
-        <form onSubmit={handleSubmit} className="login-form" method="post" action="http://localhost:5000/users">
+        <form onSubmit={handleRegister} className="login-form" method="post" action="http://localhost:5000/users">
             <label for="username" className="label">Name: </label>
             <input value={username} className="input-field" onChange={(e) => setName(e.target.value)} type="username" placeholder="Your Name" id="username" name="username"/>
             

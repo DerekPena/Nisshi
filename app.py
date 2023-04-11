@@ -47,12 +47,9 @@ def register():
         })
 
         return jsonify({
-            "status": "User is created and stored in MongoDB",
+            "status": "Registration successful",
             "id": id,
-            "name": name,
-            "email": email,
-            "password": password,
-            "is_Student": is_Student
+            "name": name
         })
 
 @app.route('/login', methods=["POST"])
@@ -66,23 +63,18 @@ def login():
 
         usrData = userList.find_one({"email": email, "password": password})
 
-        #Add logic to check if correct email & password
+        #User entered "incorrect" Email &/ Password
+        if usrData is None:
+            return jsonify({
+                "status": "Login unsuccessful",
+                "error": "error"
+            })
 
-        data = {
-            "id": usrData["id"],
-            "name": usrData["name"],
-            "email": usrData["email"],
-            "password": usrData["password"],
-            "is_Student": usrData["is_Student"]
-        }
-        app.logger.info(data)
-
+        #User entered "correct" Email & Password
         return jsonify({
+            "status": "Login successful",
             "id": usrData["id"],
-            "name": usrData["name"],
-            "email": usrData["email"],
-            "password": usrData["password"],
-            "is_Student": usrData["is_Student"]
+            "name": usrData["name"]
         })
 
 @app.route('/journal', methods=["POST"])
@@ -91,58 +83,88 @@ def journal():
     #Save journal entry to MongoDB
     if request.method == "POST":
         body = request.json
-        id = ''.join(random.choices(string.digits, k=10))
         title = body["title"]
         entry = body["entry"]
         date = datetime.now().strftime("%m/%d/%y")
         usr_id = body["id"]
+        
+        #Make a new journal entry
+        if body["journal_id"] is None:
+            id = ''.join(random.choices(string.digits, k=10))
 
-        journalList.insert_one({
+            journalList.insert_one({
             "id": id,
             "title": title,
             "entry": entry,
             "date": date,
             "usr_id": usr_id
-        })
+            })
 
-        return jsonify({
-            "status": "Journal entry is saved to MongoDB",
-            "id": id,
-            "title": title,
-            "entry": entry,
-            "date":date,
-            "usr_id": usr_id
-        })
+            return jsonify({"status": "Journal entry is saved to MongoDB"})
+
+        #Update journal entry
+        else:
+            id = body["journal_id"]
+
+            journalList.update_one({"id": id}, {"$set": {"entry": entry}})
+            journalList.update_one({"id": id}, {"$set": {"date": date}})
+
+            return jsonify({"status": "Journal entry is updated to MongoDB"})
 
 @app.route('/entry', methods=["POST"])
 @cross_origin(origin="*")
 def entry():
-    #UseUp the "usr_id" return a list of the user's journals
+    #Use the "usr_id" to return a list of the user's journal entries
     if request.method == "POST":
         body = request.json
         id = body["id"]
-
-        app.logger.info(id)
 
         journals = journalList.find({"usr_id": id})
         journalData = []
 
         for journal in journals:
-            title = journal["journal_title"]
+            journal_id = journal["id"]
+            title = journal["title"]
             entry = journal["entry"]
             date = journal["date"]
 
             journalDict = {
+                "journal_id": journal_id,
                 "title": title,
                 "entry": entry,
                 "date": date,
             }
-
             journalData.append(journalDict)
 
-        app.logger.info(journalData)
-
         return jsonify(journalData)
+
+@app.route('/vocab', methods=["POST"])
+@cross_origin(origin="*")
+def vocab():
+    #Use the "lesson #" to return a list of the Lesson Vocab
+    if request.method == "POST":
+        body = request.json
+        lessonNum = body["lessonNum"]
+
+        vocabs = vocabList.find({"lesson": lessonNum})
+        vocabData = []
+
+        for vocab in vocabs:
+            tango = vocab["tango"]
+            if "kanji" in vocab:
+                kanji = vocab["kanji"]
+            else:
+                kanji = None
+            definition = vocab["definition"]
+
+            vocabDict = {
+                "tango": tango,
+                "kanji": kanji,
+                "definition": definition,
+            }
+            vocabData.append(vocabDict)
+
+        return jsonify(vocabData)
 
 if __name__ == "__main__":
     app.run(debug=True)
