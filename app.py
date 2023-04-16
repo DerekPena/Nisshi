@@ -156,11 +156,18 @@ def vocab():
             else:
                 kanji = None
             definition = vocab["definition"]
+            type = vocab["type"]
+            if "type2" in vocab:
+                type2 = vocab["type2"]
+            else:
+                type2 = None
 
             vocabDict = {
                 "tango": tango,
                 "kanji": kanji,
                 "definition": definition,
+                "type": type,
+                "type2": type2
             }
             vocabData.append(vocabDict)
 
