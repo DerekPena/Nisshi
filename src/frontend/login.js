@@ -32,11 +32,31 @@ export default props => {
 
     return (
         <form onSubmit={handleLogin} className="login-form">
-            <label for="email" className="label">Email: </label>
-            <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your email" id="email" name="email"/>
+
+            <div id="auth-block">
+                <h2 id="header">LOG-IN</h2>
+                <row>
+                    <input type="email" class="inputEntry input-field" id="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} name="email"/>
+                    <label class="labelEntry" for="email">Email</label>
+                </row>
+
+                <div id="divider"></div>
+                <row>
+                    <input type="password" class="inputEntry input-field" id="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} name="password"/>
+                    <label class="labelEntry" for="password">Password</label>
+                </row>
+                <div id="divider"></div>
+                <row>
+                    <p onClick={() => props.onFormSwitch('register')} type="submit" id="redirect">I don't have a Nisshi account.</p>
+                    <button type="submit" className="btn btn-lg">LOGIN</button>
+                </row>
+            </div>
+
+            {/* <label for="email" className="label">Email: </label>
+            <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" id="email" name="email"/>
             <label for="password" className="label">Password: </label>
-            <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Your password" id="password" name="password"/>
-            <button type="submit" className="button">Log In</button>
+            <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Password" id="password" name="password"/>
+            <button type="submit" className="button">Log In</button> */}
         </form>
     )
 }

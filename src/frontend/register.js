@@ -27,28 +27,61 @@ export default props => {
 
     return (
         <form onSubmit={handleRegister} className="login-form" method="post" action="http://localhost:5000/users">
-            <label for="username" className="label">Name: </label>
+
+            <div class="container" id="auth-block">
+                <h2 id="header">REGISTER</h2>
+                <row>
+                    <input type="username" class="inputEntry input-field" id="username" placeholder="Name" onChange={(e) => setEmail(e.target.value)} name="username"/>
+                    <label class="labelEntry" for="username">Name</label>
+                </row>
+
+                <div id="divider"></div>
+
+                <row>
+                    <input type="email" class="inputEntry input-field" id="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} name="email"/>
+                    <label class="labelEntry" for="email">Email</label>
+                </row>
+
+                <div id="divider"></div>
+                <row>
+                    <input type="password" class="inputEntry input-field" id="password" placeholder="Password" onChange={(e) => setPass(e.target.value)} name="password"/>
+                    <label class="labelEntry" for="password">Password</label>
+                </row>
+
+                <row id="radioUser">
+                    <div class="row">
+                        <div class="col-6 custom-control custom-radio custom-control-inline">
+                            <input type="radio" onClick={(e) => setUserType("Student")} id="student" name="userType" class="custom-control-input"/>
+                            <label class="custom-control-label" for="student">Student</label>
+                        </div>
+
+                        <div class="col-6 custom-control custom-radio custom-control-inline">
+                            <input type="radio" onClick={(e) => setUserType("Teacher")} id="teacher" name="userType" class="custom-control-input"/>
+                            <label class="custom-control-label" for="teacher">Teacher</label>
+                        </div>
+                    </div>
+                </row>
+
+                <row>
+                    <p onClick={() => props.onFormSwitch('login')} type="submit" id="redirect">I do have a Nisshi account.</p>
+                    <button type="submit" className="btn btn-lg">SIGN UP</button>
+                </row>
+            </div>
+
+            {/* <label for="username" className="label">Name: </label>
             <input value={username} className="input-field" onChange={(e) => setName(e.target.value)} type="username" placeholder="Your Name" id="username" name="username"/>
             
             <label for="email" className="label">Email: </label>
             <input value={email} className="input-field" onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Your email" id="email" name="email"/>
             
             <label for="password" className="label">Password: </label>
-            <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Your password" id="password" name="password"/>
+            <input value={pass} className="input-field" onChange={(e) => setPass(e.target.value)} type="password" placeholder="Your password" id="password" name="password"/> 
+            
+            
+            */}
             
             {/*Need to determine someway to obtain input from radio buttons*/}
-            <div className="radio-button">
-                {/* <input type="radio" value="Teacher" name="userType" id="Teacher"/> */}
-                <input type="radio" value={userType} name="userType" onClick={(e) => setUserType("Teacher")} id="Teacher"/>
-                <label for="Teacher">Teacher</label>
-                
-                <p/>
-
-                {/* <input type="radio" value="Student" name="userType" id="Student" defaultChecked/> */}
-                <input type="radio" value={userType} name="userType" onClick={(e) => setUserType("Student")} id="Student" defaultChecked/>
-                <label for="Student">Student</label>
-            </div>
-            <button type="submit" className="button">Sign Up</button>
+            
         </form>
     )
 }

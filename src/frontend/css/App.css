@@ -1,6 +1,7 @@
 .App {
   text-align: center;
-  background-color: #006189;
+  background: rgb(0,97,137);
+  background: linear-gradient(90deg, rgba(0,97,137,1) 0%, rgba(99,0,137,1) 100%);
 }
 
 .App-header {
@@ -14,6 +15,10 @@
   font-weight: bold;
   color: white;
   transition: color 0.2s;
+
+  font-family: 'Patua One', cursive;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
 }
 
 #sub-header{
@@ -23,11 +28,11 @@
 }
 
 .App-header:hover {
-  color: grey;
+  color: #ff9500;
 }
 
 #sub-header:hover {
-  color: rgba(134, 94, 0, 0.962)
+  color: #ffe19a;
 }
 
 .App-content {
@@ -35,7 +40,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 15vh;
+  padding-top: 10vh;
   font-size: calc(5px + 2vmin);
   color: white;
 }
+
+  /* Stand-by CSS for Google Fonts 
+
+  font-family: 'Heebo', sans-serif;
+  font-family: 'Kiwi Maru', serif;
+  font-family: 'Kranky', cursive;
+  font-family: 'Lobster', cursive;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-family: 'Mohave', sans-serif;
+  font-family: 'Patua One', cursive;
+  font-family: 'Quicksand', sans-serif;
+  */

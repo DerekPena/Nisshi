@@ -1,8 +1,9 @@
 .login-form{
     display: flex;
     flex-direction: column;
-    width: 250px;
+    width: 70vh;
     color: #ffb400;
+    font-family: 'Patua One', cursive;
 }
 
 .label{
@@ -10,9 +11,9 @@
     padding-bottom: 5px;
 }
 
-.input-field {
+/* .input-field {
     margin-bottom: 25px;
-}
+} */
 
 .button {
     background-color:#ffb400;
@@ -25,6 +26,91 @@
     background-color: rgba(134, 94, 0, 0.962)
 }
 
-.radio-button {
-    padding-bottom: 18px;
+
+/* Card Formatting */
+#header {
+    padding-top:1em;
+    padding-bottom: 2em;
+}
+
+form {
+    position: relative;
+}
+
+input {
+
+}
+
+.inputEntry {
+    position: relative;
+    border: none;
+    border-bottom:2px solid #ffb400;
+    background-color: unset;
+    outline: none;
+    font-size: 1em;
+    color: white;
+    min-width: 40vmin;
+}
+
+.labelEntry {
+    left: 16vh;
+    position: absolute;
+    transform-origin: 0 0;
+    transition: transform 0.2s ease-in;
+}
+
+.inputEntry:focus + .labelEntry, .inputEntry:not(:placeholder-shown)+ .labelEntry{
+    transform: translateY(-1em) scale(0.8);
+}
+
+#auth-block {
+    border-radius: 1rem;
+    background-color: #0e2e4e;
+    padding-left: 6vh;
+    padding-right: 6vh;
+    padding-bottom: 4vh;
+    min-height: 40vh;
+}
+
+#divider {
+    height: 6vh;
+}
+::placeholder {
+    color: #0e2e4e;
+}
+
+::-ms-input-placeholder {
+    color: #0e2e4e;
+}
+
+.btn {
+    background-color: #ffb400;
+}
+.btn:hover {
+    background-color: rgb(0,97,137);
+}
+
+#redirect {
+    font-size:80%;
+    padding-bottom:1em;
+}
+
+#redirect:hover {
+    color: rgb(0,97,137);
+}
+
+#radioUser {
+    width: 60%;
+    align-items: center;
+}
+
+.custom-control-inline {
+    padding-top: 1.5em;
+    /* padding-left:0.5em;
+    padding-right:0.5em; */
+}
+
+.custom-control-label {
+    font-size:20px;
+    padding-left: 1em;
 }

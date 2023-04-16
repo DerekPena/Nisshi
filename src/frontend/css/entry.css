@@ -30,7 +30,8 @@
     margin-bottom: 5px;
 }
 
-.container {
+/* Commented out because overrides Bootstrap container class */
+/* .container {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -40,7 +41,7 @@
     background-color: #ffb400;
     border-radius: 10px;
     margin-bottom: 20px;
-}
+} */
 
 .journalTitle {
     width: 30%;

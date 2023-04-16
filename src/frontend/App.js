@@ -33,15 +33,13 @@ function App() {
 
     return (
         <div className="App">
-
             {
                 currentForm === "startpage" ? <div /> : currentForm === "login" ? <div /> : currentForm === "register" ? <div /> : <Sidebar pageWrapId={'page-wrap'} outerContainerId={'outer-container'} onFormSwitch={toggleForm} />
             }
 
 
             <header className="App-header" onClick={() => toggleForm('startpage')}>
-                <div>NISSHI</div>
-                <div id="sub-header">日誌</div>
+                <a>Nisshi・日誌</a>
             </header>
 
             <div className="App-content">
@@ -51,7 +49,6 @@ function App() {
                     currentForm === "entry" ? <Entry onFormSwitch={toggleForm}/> : currentForm === "exercise" ? <Exercise /> : <Startpage onFormSwitch={toggleForm} />
                 }
             </div>
-
         </div>
     );
 }
