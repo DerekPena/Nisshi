@@ -13,10 +13,6 @@ export default props=> {
 				Entries
 				<p className="subtitle">きにゅう</p>
 			</div>
-			<div className="title" onClick={() => props.onFormSwitch('exercise')}>
-				Exercises
-				<p className="subtitle">れんしゅう</p>
-			</div>
 			<div className="title" onClick={() => props.onFormSwitch('userHome')}>
 				Journal
 				<p className="subtitle">にっし</p>

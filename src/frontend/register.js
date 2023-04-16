@@ -22,7 +22,7 @@ export default props => {
             })
             .catch(error => {console.log("Error: ", error)})
         
-        props.onFormSwitch('userHome')
+        props.onFormSwitch('entry')
     }
 
     return (

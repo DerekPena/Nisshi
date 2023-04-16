@@ -24,7 +24,7 @@ export default props => {
                 else {
                     sessionStorage.setItem("id", data["id"])
                     sessionStorage.setItem("name", data["name"])
-                    props.onFormSwitch('userHome')
+                    props.onFormSwitch('entry')
                 }
             })
             .catch(error => {console.log("Error: ", error)})
