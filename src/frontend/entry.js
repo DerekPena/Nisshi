@@ -33,7 +33,7 @@ export default props => {
             <button className="edit" onClick={() => handleEdit(journal.title, journal.entry, journal.journal_id)}>Edit</button>
             {/* <p className="entry" dangerouslySetInnerHTML={{ __html: journal.entry }}></p> */}
             {/* <p className="entry">{journal.entry}</p> */}
-            </div> 
+            </div>  
     })
 
     //When users click on the edit button, they are sent to the journal page to edit their journal entry

@@ -7,7 +7,6 @@ import Register from './register';
 import Startpage from './startpage';
 import Account from './account';
 import Entry from './entry';
-import Exercise from './exercise';
 
 function App() {
 
@@ -48,7 +47,7 @@ function App() {
                 {
                     currentForm === "userHome" ? <Journal onFormSwitch={toggleForm}/> : currentForm === "login" ? <Login onFormSwitch={toggleForm} /> :
                     currentForm === "register" ? <Register onFormSwitch={toggleForm} /> : currentForm === "account" ? <Account /> :
-                    currentForm === "entry" ? <Entry onFormSwitch={toggleForm}/> : currentForm === "exercise" ? <Exercise /> : <Startpage onFormSwitch={toggleForm} />
+                    currentForm === "entry" ? <Entry onFormSwitch={toggleForm}/>: <Startpage onFormSwitch={toggleForm} />
                 }
             </div>
 

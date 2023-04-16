@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './css/journal.css';
-import './css/Box.css';
 
 
 export default props => {
@@ -71,6 +70,19 @@ export default props => {
 
         props.onFormSwitch('entry')
     }
+    
+    function checkVocab() {
+        let index = 0;
+        for(let key of vocabData.keys())
+        {
+            let word = vocabData[key].tango;
+            index = entry.indexOf(word)
+            if(index != -1)
+            {
+                setEntry(entry.slice(0, index) + "<u><b>" + entry.slice(index, index+word.length) + "</b></u>" + entry.slice(index + word.length));
+            }
+        }
+    }
 
     //If the edit button was clicked, Prefills the journal page with the that journal's title and entry
     function setJournal() {
@@ -108,7 +120,7 @@ export default props => {
                 <h5><u>{title}</u></h5>
                 <p dangerouslySetInnerHTML={{ __html: entry }}></p>
             </div>
-
+            <button type="button" onClick={checkVocab}>Check Entry</button>
             <button type='submit'>Save entry</button>
         </form>
     );
