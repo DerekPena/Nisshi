@@ -125,7 +125,7 @@ export default props => {
                 <p dangerouslySetInnerHTML={{ __html: entry }}></p>
             </div>
             <button type="button" onClick={checkVocab}>Check Vocabulary</button>
-            <button type='submit'>Save Entry</button>
+            <button type='submit' onClick={checkVocab}>Save Entry</button>
         </form>
     );
 };
