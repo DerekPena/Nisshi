@@ -2,45 +2,61 @@ import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './css/journal.css';
+import './css/Box.css';
 
 
 export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
     const [journal_id, setJournal_id] = useState(null)
-    //const [vocabData,setVocabData]=useState([])
+    const [vocabData,setVocabData]=useState([])
     let id = sessionStorage.getItem("id")
-    //let lesson = sessionStorage.getItem("lesson")
-    //let lessonNum = 22
+    // let lesson = sessionStorage.getItem("lesson")
+    let lessonNum = 22
 
     useEffect(() => {
         setJournal();
-        // getVocabData();
+        getVocabData();
     }, []);
 
-    // function getVocabData() {
-    //     let lessonNum = 22
-    //     fetch("http://localhost:5000/vocab",{
-    //         method: 'POST',
-    //         headers: {'Content-type': 'application/json'},
-    //         body: JSON.stringify({lessonNum})
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             setVocabData(data)
-    //         })
-    //         .catch(error => {console.log("Error: ", error)})
-    // }
+    function getVocabData() {
+        let lessonNum = 22
+        fetch("http://localhost:5000/vocab",{
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({lessonNum})
+        })
+            .then(response => response.json())
+            .then(data => {
+                setVocabData(data)
+            })
+            .catch(error => {console.log("Error: ", error)})
+    }
 
-    // //Loops through list of Vocab and populates it 
-    // const vocab=vocabData.map( vocab =>{
-    //     return <div key={vocab.id}>
-    //       <h5>Tango: {vocab.tango}</h5>
-    //       <h5>Kanji: {vocab.kanji}</h5>
-    //       <p>Definition: {vocab.definition}</p>
+    //Loops through list of Vocab and populates it 
+    const vocab=vocabData.map( vocab =>{
+        return <div key={vocab.id}>
+            {/* <p className="vocab" onMouseOver={() => handleMouseOver(vocab.kanji, vocab.definition)} onMouseLeave={() => handleMouseLeave()}>{vocab.tango}</p> */}
+            <div className="vocab">
+                {vocab.tango}
+
+                {/* <div className='tooltiptext'> 
+                    {vocab.kanji} 
+                    {vocab.definition}
+                </div> */}
+            </div>
+        </div>
+    })
+
+    // const handleMouseOver = (kanji, definition) => {
+    //     return <div className='popup'> HI </div>
+    //     return <div className='popup'>
+    //         <span className='tooltiptext'>
+    //             <p>{kanji}</p>
+    //             <p>{definition}</p>
+    //         </span>
     //     </div>
-    
-    // })
+    // };
 
     const handleSave = (e) => {
         e.preventDefault();
@@ -65,9 +81,8 @@ export default props => {
 
     return (
 
-        <form onSubmit={handleSave} method="post" action="http://localhost:5000/entry">
-            <h5>Please enter in your text below and it will display at the bottom of the screen.</h5>
-            <div>
+        <form onSubmit={handleSave}  method="post" action="http://localhost:5000/entry">
+            <div className="journal-container">
                 <textarea
                     placeholder="Title..."
                     id="journal-title"
@@ -77,24 +92,24 @@ export default props => {
                 />
 
                 <ReactQuill  
-                    id="Quill"
+                    className="Quill"
                     placeholder="Type Here..."
                     value= {entry}
                     onChange={setEntry}
                 />
 
-                {/* <textarea
-                    placeholder="Type here..."
-                    name="journal_entry"
-                    onChange={(e) => setEntry(e.target.value)}
-                    style={{ height: "300px", width: "500px", wordWrap: "break-word", wordBreak: "break-all", fontFamily: "serif" }}
-                /> */}
+                <div className="vocab-container">
+                    <p className="vocab-title">Lesson {lessonNum} Vocab</p>
+                    <p className="vocab-box">{vocab}</p>
+                </div>
+            </div>
 
+            <div>
+                <h5><u>{title}</u></h5>
+                <p dangerouslySetInnerHTML={{ __html: entry }}></p>
             </div>
 
             <button type='submit'>Save entry</button>
-
-            {/* <div>{vocab}</div> */}
         </form>
     );
 };

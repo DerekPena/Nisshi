@@ -26,12 +26,13 @@ export default props => {
     }
 
     //Loops through list of Journals and creates individual panels with each Journal entry
-    const journals=journalData.map( journal => {
+    const journals=journalData.map( journal => {        
         return <div key={journal.id} className="container">
             <p className="journalTitle">{journal.title}</p>
             <p className="date">{journal.date}</p>
             <button className="edit" onClick={() => handleEdit(journal.title, journal.entry, journal.journal_id)}>Edit</button>
-            <p className="entry">{journal.entry}</p>
+            {/* <p className="entry" dangerouslySetInnerHTML={{ __html: journal.entry }}></p> */}
+            {/* <p className="entry">{journal.entry}</p> */}
             </div> 
     })
 
@@ -45,9 +46,15 @@ export default props => {
         props.onFormSwitch('userHome')
     }
 
+    const handleNew = () => {
+        props.onFormSwitch('userHome')
+    }
+
     return(
-        <form>
-            <h2>{name}'s Journal Entries</h2>
+        <form className="entry-container">
+            <h2 className="entry-title">{name}'s Journal Entries</h2>
+
+            <button className="new" onClick={() => handleNew()}>New</button>
             
             {journals}
         </form>
