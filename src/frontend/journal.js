@@ -73,16 +73,24 @@ export default props => {
     
     function checkVocab() {
         let index = 0;
+        let indexKanji = 0;
         let tempEntry = entry;
         tempEntry = tempEntry.replaceAll("<strong style=\"color: rgb(255, 180, 0);\">", "");
         tempEntry = tempEntry.replaceAll("</strong>", "");
         for(let key of vocabData.keys())
         {
+            console.log(vocabData[key]);
             let word = vocabData[key].tango;
-            index = tempEntry.indexOf(word)
+            let wordKanji = vocabData[key].kanji;
+            index = tempEntry.indexOf(word);
+            indexKanji = tempEntry.indexOf(wordKanji);
             if(index != -1)
             {
-                tempEntry = (tempEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + tempEntry.slice(index, index+word.length) + "</strong>" + tempEntry.slice(index + word.length));
+                tempEntry = (tempEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + tempEntry.slice(index, index + word.length) + "</strong>" + tempEntry.slice(index + word.length));
+            }
+            if(indexKanji != -1)
+            {
+                tempEntry = (tempEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + tempEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + tempEntry.slice(indexKanji + wordKanji.length));
             } 
         } 
         setEntry(tempEntry);
