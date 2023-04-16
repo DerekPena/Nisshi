@@ -73,16 +73,20 @@ export default props => {
     
     function checkVocab() {
         let index = 0;
+        let tempEntry = entry;
+        tempEntry = tempEntry.replaceAll("<strong style=\"color: rgb(255, 180, 0);\">", "");
+        tempEntry = tempEntry.replaceAll("</strong>", "");
         for(let key of vocabData.keys())
         {
             let word = vocabData[key].tango;
-            index = entry.indexOf(word)
+            index = tempEntry.indexOf(word)
             if(index != -1)
             {
-                setEntry(entry.slice(0, index) + "<u><b>" + entry.slice(index, index+word.length) + "</b></u>" + entry.slice(index + word.length));
-            }
-        }
-    }
+                tempEntry = (tempEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + tempEntry.slice(index, index+word.length) + "</strong>" + tempEntry.slice(index + word.length));
+            } 
+        } 
+        setEntry(tempEntry);
+    } 
 
     //If the edit button was clicked, Prefills the journal page with the that journal's title and entry
     function setJournal() {
@@ -120,8 +124,8 @@ export default props => {
                 <h5><u>{title}</u></h5>
                 <p dangerouslySetInnerHTML={{ __html: entry }}></p>
             </div>
-            <button type="button" onClick={checkVocab}>Check Entry</button>
-            <button type='submit'>Save entry</button>
+            <button type="button" onClick={checkVocab}>Check Vocabulary</button>
+            <button type='submit'>Save Entry</button>
         </form>
     );
 };
