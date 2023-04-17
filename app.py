@@ -74,7 +74,25 @@ def login():
         return jsonify({
             "status": "Login successful",
             "id": usrData["id"],
-            "name": usrData["name"]
+            "name": usrData["name"],
+            "email": usrData["email"]
+        })
+    
+@app.route('/account', methods=["POST"])
+@cross_origin(origin="*")
+def account():
+    #Update user Email &/ Password
+    if request.method == "POST":
+        body = request.json
+        id = body["id"]
+        email = body["email"]
+        password = body["pass"]
+
+        userList.update_one({"id": id}, {"$set": {"email": email}})
+        userList.update_one({"id": id}, {"$set": {"password": password}})
+
+        return jsonify({
+            "status": "Email & Password updated"
         })
 
 @app.route('/journal', methods=["POST"])

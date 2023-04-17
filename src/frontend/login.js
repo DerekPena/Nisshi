@@ -24,6 +24,7 @@ export default props => {
                 else {
                     sessionStorage.setItem("id", data["id"])
                     sessionStorage.setItem("name", data["name"])
+                    sessionStorage.setItem("email", data["email"])
                     props.onFormSwitch('entry')
                 }
             })
