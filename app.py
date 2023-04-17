@@ -101,6 +101,7 @@ def journal():
         body = request.json
         title = body["title"]
         entry = body["entry"]
+        lesson = body["lessonNum"]
         date = datetime.now().strftime("%m/%d/%y")
         usr_id = body["id"]
         
@@ -112,6 +113,7 @@ def journal():
             "id": id,
             "title": title,
             "entry": entry,
+            "lesson": lesson,
             "date": date,
             "usr_id": usr_id
             })
@@ -143,11 +145,13 @@ def entry():
             journal_id = journal["id"]
             title = journal["title"]
             entry = journal["entry"]
+            lesson = journal["lesson"]
             date = journal["date"]
 
             journalDict = {
                 "journal_id": journal_id,
                 "title": title,
+                "lesson": lesson,
                 "entry": entry,
                 "date": date,
             }

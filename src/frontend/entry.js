@@ -20,6 +20,7 @@ export default props => {
         })
             .then(response => response.json())
             .then(data => {
+                sessionStorage.setItem("lessonNum", 1)
                 setJournalData(data)
             })
             .catch(error => {console.log("Error: ", error)})
@@ -37,7 +38,7 @@ export default props => {
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <button className="btn" onClick={() => handleEdit(journal.title, journal.entry, journal.journal_id)}>EDIT</button>
+                                <button className="btn" onClick={() => handleEdit(journal.title, journal.entry, journal.lesson, journal.journal_id)}>EDIT</button>
                             </div>
 
                             <div class="col-6">
@@ -51,9 +52,10 @@ export default props => {
     })
 
     //When users click on the edit button, they are sent to the journal page to edit their journal entry
-    const handleEdit = (title, entry, journal_id) => {       
+    const handleEdit = (title, entry, lessonNum, journal_id) => {       
         sessionStorage.setItem("title", title)
         sessionStorage.setItem("entry", entry)
+        sessionStorage.setItem("lessonNum", lessonNum)
         sessionStorage.setItem("journal_id", journal_id)
         sessionStorage.setItem("editButton", "true")
 
@@ -74,6 +76,10 @@ export default props => {
         // props.onFormSwitch('entry')
     }
 
+    const handleLessonNum = (lessonNum) => {
+        sessionStorage.setItem("lessonNum", lessonNum)
+    }
+
     const handleNew = () => {
         props.onFormSwitch('userHome')
     }
@@ -86,8 +92,8 @@ export default props => {
                         <h2 className="entry-title">{name}'s Journal Entries</h2>
                     </div>
                     <div class="col-1">
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {/* <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 L22
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -116,8 +122,35 @@ export default props => {
                                 <a class="dropdown-item" href="#">L23</a>
                                 <a class="dropdown-item" href="#">L24</a>
                             </div>
-                         </div>
-                    </div>
+                         </div> */}
+                         <select class="btn btn-mini" aria-label=".form-select-sm" onChange={(e) => handleLessonNum(e.target.value)}>
+                            <option selected value="1">L1</option>
+                            <option value="2">L2</option>
+                            <option value="3">L3</option>
+                            <option value="4">L4</option>
+                            <option value="5">L5</option>
+                            <option value="6">L6</option>
+                            <option value="7">L7</option>
+                            <option value="8">L8</option>
+                            <option value="9">L9</option>
+                            <option value="10">L10</option>
+                            <option value="11">L11</option>
+                            <option value="12">L12</option>
+                            <option value="13">L13</option>
+                            <option value="14">L14</option>
+                            <option value="15">L15</option>
+                            <option value="16">L16</option>
+                            <option value="17">L17</option>
+                            <option value="18">L18</option>
+                            <option value="19">L19</option>
+                            <option value="20">L20</option>
+                            <option value="21">L21</option>
+                            <option value="22">L22</option>
+                            <option value="23">L23</option>
+                            <option value="24">L24</option>
+                        </select>
+                    </div>                     
+
                     <div class="col-3">
                         <button className="btn" onClick={() => handleNew()}>NEW ENTRY</button>
                     </div>

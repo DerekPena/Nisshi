@@ -30,6 +30,12 @@
     max-height:25em; */
 }
 
+select.btn-mini {
+    height:auto;
+    overflow-y: auto;
+    line-height: 10px;
+}
+
 .entry-container {
     display: flex;
     flex-wrap: wrap;

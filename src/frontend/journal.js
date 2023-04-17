@@ -8,10 +8,10 @@ export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
     const [journal_id, setJournal_id] = useState(null)
+    const [lessonNum, setLessonNum] = useState(parseInt(sessionStorage.getItem("lessonNum")))
     const [vocabData,setVocabData]=useState([])
     let id = sessionStorage.getItem("id")
-    // let lesson = sessionStorage.getItem("lesson")
-    let lessonNum = 22
+    // let lessonNum = 22
 
     useEffect(() => {
         setJournal();
@@ -19,7 +19,9 @@ export default props => {
     }, []);
 
     function getVocabData() {
-        let lessonNum = 22
+        // lessonNum = sessionStorage.getItem("lessonNum")
+        
+
         fetch("http://localhost:5000/vocab",{
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -30,6 +32,14 @@ export default props => {
                 setVocabData(data)
             })
             .catch(error => {console.log("Error: ", error)})
+    }
+
+    //If the edit button was clicked, Prefills the journal page with the that journal's title and entry
+    function setJournal() {
+        setTitle(sessionStorage.getItem("title"))
+        setEntry(sessionStorage.getItem("entry"))
+        setLessonNum(parseInt(sessionStorage.getItem("lessonNum")))
+        setJournal_id(sessionStorage.getItem("journal_id"))
     }
 
     //Loops through list of Vocab and populates it 
@@ -47,23 +57,13 @@ export default props => {
         </div>
     })
 
-    // const handleMouseOver = (kanji, definition) => {
-    //     return <div className='popup'> HI </div>
-    //     return <div className='popup'>
-    //         <span className='tooltiptext'>
-    //             <p>{kanji}</p>
-    //             <p>{definition}</p>
-    //         </span>
-    //     </div>
-    // };
-
     const handleSave = (e) => {
         e.preventDefault();
 
         fetch("http://localhost:5000/journal", {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({title, entry, id, journal_id})
+            body: JSON.stringify({title, entry, id, journal_id, lessonNum})
         })
             .then(response => response.json())
             .catch(error => { console.log("Error: ", error) })
@@ -164,13 +164,6 @@ export default props => {
         } 
         setEntry(settingEntry);
     } 
-
-    //If the edit button was clicked, Prefills the journal page with the that journal's title and entry
-    function setJournal() {
-        setTitle(sessionStorage.getItem("title"))
-        setEntry(sessionStorage.getItem("entry"))
-        setJournal_id(sessionStorage.getItem("journal_id"))
-    }
 
     return (
 
