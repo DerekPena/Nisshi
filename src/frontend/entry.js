@@ -29,9 +29,9 @@ export default props => {
     const journals=journalData.map( 
         journal => { return <div key={journal.id} className="col">
             <div class="card" id ="entry-card">
-
                 <div class="card-body">
                     <div className="card-title">{journal.title}</div>
+
                     <div className="card-subtitle mb-2 text-muted">{journal.date}</div>
 
                     <div class="card-footer">
@@ -41,18 +41,12 @@ export default props => {
                             </div>
 
                             <div class="col-6">
-                                <button className="btn" onClick={() => handleEdit(journal.title, journal.entry, journal.journal_id)}>DELETE</button>
+                                <button className="btn" onClick={() => handleDelete(journal.journal_id)}>DELETE</button>
                             </div>
                         </div>
                     </div>
-
-                
                 </div>
             </div>
-            
-            
-            {/* <p className="entry" dangerouslySetInnerHTML={{ __html: journal.entry }}></p> */}
-            {/* <p className="entry">{journal.entry}</p> */}
         </div>  
     })
 
@@ -64,6 +58,20 @@ export default props => {
         sessionStorage.setItem("editButton", "true")
 
         props.onFormSwitch('userHome')
+    }
+
+    const handleDelete = (journal_id) => {       
+        fetch("http://localhost:5000/delete",{
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({journal_id})
+        })
+            .then(response => response.json())
+
+            .catch(error => {console.log("Error: ", error)})
+
+        props.onFormSwitch('userHome')
+        // props.onFormSwitch('entry')
     }
 
     const handleNew = () => {

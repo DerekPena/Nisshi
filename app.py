@@ -91,9 +91,7 @@ def account():
         userList.update_one({"id": id}, {"$set": {"email": email}})
         userList.update_one({"id": id}, {"$set": {"password": password}})
 
-        return jsonify({
-            "status": "Email & Password updated"
-        })
+        return jsonify({"status": "Email & Password updated"})
 
 @app.route('/journal', methods=["POST"])
 @cross_origin(origin="*")
@@ -156,6 +154,18 @@ def entry():
             journalData.append(journalDict)
 
         return jsonify(journalData)
+    
+@app.route('/delete', methods=["POST"])
+@cross_origin(origin="*")
+def delete():
+    #Delete journal entry
+    if request.method == "POST":
+        body = request.json
+        journal_id = body["journal_id"]
+
+        journalList.delete_one({"id": journal_id})
+
+        return jsonify({"status": "Journal entry deleted"})
 
 @app.route('/vocab', methods=["POST"])
 @cross_origin(origin="*")
