@@ -52,12 +52,12 @@ export default props => {
                     <div class="row">
                         <div class="col-6 custom-control custom-radio custom-control-inline">
                             <input type="radio" onClick={(e) => setUserType("Student")} id="student" name="userType" class="custom-control-input"/>
-                            <label class="custom-control-label" for="student">Student</label>
+                            <label class="custom-control-label" for="student">Student | 学生</label>
                         </div>
 
                         <div class="col-6 custom-control custom-radio custom-control-inline">
                             <input type="radio" onClick={(e) => setUserType("Teacher")} id="teacher" name="userType" class="custom-control-input"/>
-                            <label class="custom-control-label" for="teacher">Teacher</label>
+                            <label class="custom-control-label" for="teacher">Teacher | 先生</label>
                         </div>
                     </div>
                 </row>

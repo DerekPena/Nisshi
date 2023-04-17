@@ -1,0 +1,11 @@
+#account-container {
+    background-color: rgba(36, 219, 213, 0.2);
+    border-radius: 0.5rem;
+    padding: 0.7em;
+    padding-left: 1em;
+    padding-right: 1.5em;
+    min-width: 140vh;
+    max-height: 70vh;
+
+    font-family: 'Patua One', cursive;
+}
