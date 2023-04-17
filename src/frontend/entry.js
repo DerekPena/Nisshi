@@ -74,10 +74,43 @@ export default props => {
         <form className="entry-container">
             <div class="container">
                 <div class="row" id="main-container">
-                    <div class="col-10">
+                    <div class="col-8">
                         <h2 className="entry-title">{name}'s Journal Entries</h2>
                     </div>
-                    <div class="col-2">
+                    <div class="col-1">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                L22
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">L1</a>
+                                <a class="dropdown-item" href="#">L2</a>
+                                <a class="dropdown-item" href="#">L3</a>
+                                <a class="dropdown-item" href="#">L4</a>
+                                <a class="dropdown-item" href="#">L5</a>
+                                <a class="dropdown-item" href="#">L6</a>
+                                <a class="dropdown-item" href="#">L7</a>
+                                <a class="dropdown-item" href="#">L8</a>
+                                <a class="dropdown-item" href="#">L9</a>
+                                <a class="dropdown-item" href="#">L10</a>
+                                <a class="dropdown-item" href="#">L11</a>
+                                <a class="dropdown-item" href="#">L12</a>
+                                <a class="dropdown-item" href="#">L13</a>
+                                <a class="dropdown-item" href="#">L14</a>
+                                <a class="dropdown-item" href="#">L15</a>
+                                <a class="dropdown-item" href="#">L16</a>
+                                <a class="dropdown-item" href="#">L17</a>
+                                <a class="dropdown-item" href="#">L18</a>
+                                <a class="dropdown-item" href="#">L19</a>
+                                <a class="dropdown-item" href="#">L20</a>
+                                <a class="dropdown-item" href="#">L21</a>
+                                <a class="dropdown-item" href="#">L22</a>
+                                <a class="dropdown-item" href="#">L23</a>
+                                <a class="dropdown-item" href="#">L24</a>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="col-3">
                         <button className="btn" onClick={() => handleNew()}>NEW ENTRY</button>
                     </div>
                     
