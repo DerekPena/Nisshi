@@ -62,6 +62,7 @@ export default props => {
         props.onFormSwitch('userHome')
     }
 
+    //When users click on the delete button, the journal entry is deleted
     const handleDelete = (journal_id) => {       
         fetch("http://localhost:5000/delete",{
             method: 'POST',
@@ -80,6 +81,7 @@ export default props => {
         sessionStorage.setItem("lessonNum", lessonNum)
     }
 
+    //When users click on the new entry button, they are sent to the journal page to write a new journal entry
     const handleNew = () => {
         props.onFormSwitch('userHome')
     }

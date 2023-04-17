@@ -3,7 +3,6 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './css/journal.css';
 
-
 export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
@@ -11,7 +10,6 @@ export default props => {
     const [lessonNum, setLessonNum] = useState(parseInt(sessionStorage.getItem("lessonNum")))
     const [vocabData,setVocabData]=useState([])
     let id = sessionStorage.getItem("id")
-    // let lessonNum = 22
 
     useEffect(() => {
         setJournal();
@@ -19,9 +17,6 @@ export default props => {
     }, []);
 
     function getVocabData() {
-        // lessonNum = sessionStorage.getItem("lessonNum")
-        
-
         fetch("http://localhost:5000/vocab",{
             method: 'POST',
             headers: {'Content-type': 'application/json'},
@@ -34,7 +29,7 @@ export default props => {
             .catch(error => {console.log("Error: ", error)})
     }
 
-    //If the edit button was clicked, Prefills the journal page with the that journal's title and entry
+    //If the edit button was clicked, Prefills the journal page with the that journal's title, entry, & lesson number
     function setJournal() {
         setTitle(sessionStorage.getItem("title"))
         setEntry(sessionStorage.getItem("entry"))
@@ -42,7 +37,7 @@ export default props => {
         setJournal_id(sessionStorage.getItem("journal_id"))
     }
 
-    //Loops through list of Vocab and populates it 
+    //Loops through list of Vocab and populates it in the vocab sidebar
     const vocab=vocabData.map( vocab =>{
         return <div key={vocab.id}>
             {/* <p className="vocab" onMouseOver={() => handleMouseOver(vocab.kanji, vocab.definition)} onMouseLeave={() => handleMouseLeave()}>{vocab.tango}</p> */}
@@ -57,6 +52,7 @@ export default props => {
         </div>
     })
 
+    //Saves the journal entry
     const handleSave = (e) => {
         e.preventDefault();
 
@@ -166,7 +162,6 @@ export default props => {
     } 
 
     return (
-
         <form onSubmit={handleSave}  method="post" action="http://localhost:5000/entry">
             {/* <div className="journal-container"> */}
             <div>

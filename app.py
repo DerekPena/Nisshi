@@ -120,7 +120,7 @@ def journal():
 
             return jsonify({"status": "Journal entry is saved to MongoDB"})
 
-        #Update journal entry
+        #Update an old journal entry
         else:
             id = body["journal_id"]
 
@@ -133,7 +133,7 @@ def journal():
 @app.route('/entry', methods=["POST"])
 @cross_origin(origin="*")
 def entry():
-    #Use the "usr_id" to return a list of the user's journal entries
+    #Return a list of the user's journal entries sorted by date
     if request.method == "POST":
         body = request.json
         id = body["id"]

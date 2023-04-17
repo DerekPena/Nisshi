@@ -25,9 +25,6 @@ function App() {
             sessionStorage.removeItem("journal_id")
             setCurrentForm(formName);
         }
-
-        // Original:
-        // setCurrentForm(formName);
     }
 
     return (
