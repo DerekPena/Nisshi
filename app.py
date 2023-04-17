@@ -106,6 +106,7 @@ def journal():
         else:
             id = body["journal_id"]
 
+            journalList.update_one({"id": id}, {"$set": {"title": title}})
             journalList.update_one({"id": id}, {"$set": {"entry": entry}})
             journalList.update_one({"id": id}, {"$set": {"date": date}})
 
