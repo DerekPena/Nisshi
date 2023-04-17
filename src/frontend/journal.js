@@ -106,34 +106,67 @@ export default props => {
     return (
 
         <form onSubmit={handleSave}  method="post" action="http://localhost:5000/entry">
-            <div className="journal-container">
-                <textarea
-                    placeholder="Title..."
-                    id="journal-title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    style={{wordWrap: "break-word", wordBreak: "break-all", fontFamily: "serif" }}
-                />
-
-                <ReactQuill  
-                    className="Quill"
-                    placeholder="Type Here..."
-                    value= {entry}
-                    onChange={setEntry}
-                />
-
-                <div className="vocab-container">
-                    <p className="vocab-title">Lesson {lessonNum} Vocab</p>
-                    <p className="vocab-box">{vocab}</p>
+            {/* <div className="journal-container"> */}
+            <div>
+                <div class="row" id="header-area">
+                    <div class="col-9">
+                        <h3 id="journal-page-header">Editing Journal Entry</h3>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-md" id="save-btn" type="button" onClick={checkVocab}>CHECK VOCABULARY</button>
+                    </div>
+                    <div class="col-1">
+                        <button class="btn btn-md" id="save-btn" type="submit" onClick={checkVocab}>SAVE</button>
+                    </div>
                 </div>
-            </div>
 
+                <div id="main-journal-area" class="flex-wrap">
+                    <div class="row gx-4">
+
+                        <div class="col-10">
+                            <div class="row gx-2">
+                                <div class="col-12">
+                                    <input class="form-control form-control-lg" value={title} onChange={(e) => setTitle(e.target.value)} 
+                                    type="text" placeholder="Enter a Title..." id="journal-title"></input>
+                                </div>
+
+                                {/* <div class="col-2">
+                                <button class="btn btn-md" id="save-btn" onClick={checkVocab}>CHECK 単語</button>
+                                </div> */}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <ReactQuill  
+                                        className="Quill"
+                                        placeholder="ここに書いてください。。。"
+                                        value= {entry}
+                                        onChange={setEntry}
+                                    />
+                                </div>                                    
+                            </div>
+                        
+                        </div>
+
+                        <div class="col-2">
+                            <div class="row">
+                                <div className="vocab-container">
+                                    <p className="vocab-title">L{lessonNum}の単語</p>
+                                    <p className="vocab-box">{vocab}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+{/* 
             <div>
                 <h5><u>{title}</u></h5>
                 <p dangerouslySetInnerHTML={{ __html: entry }}></p>
             </div>
             <button type="button" onClick={checkVocab}>Check Vocabulary</button>
-            <button type='submit' onClick={checkVocab}>Save Entry</button>
+            <button type='submit' onClick={checkVocab}>Save Entry</button> */}
         </form>
     );
 };

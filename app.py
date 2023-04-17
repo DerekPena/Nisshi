@@ -119,7 +119,7 @@ def entry():
         body = request.json
         id = body["id"]
 
-        journals = journalList.find({"usr_id": id})
+        journals = journalList.find({"usr_id": id}).sort("date", 1)
         journalData = []
 
         for journal in journals:
