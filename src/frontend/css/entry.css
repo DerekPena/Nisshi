@@ -1,3 +1,35 @@
+.btn {
+    font-family: 'Patua One', cursive;
+    font-weight: 400;
+}
+
+#main-container {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(0, 97, 137, 0.4);
+    border-radius: 0.5rem;
+    padding: 0.7em;
+    padding-top:1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    min-width: 90vh;
+    min-height: 50vh;
+
+    font-family: 'Patua One', cursive;
+}
+
+.card-title {
+    font-size: 28px;
+}
+
+#entry-card {
+    width: 26vh;
+    height: 24vh;
+    background-color: #f6fcff;
+    /* min-height:10em;
+    max-height:25em; */
+}
+
 .entry-container {
     display: flex;
     flex-wrap: wrap;
@@ -10,6 +42,7 @@
 
 .entry-title {
     width: 100%;
+    text-align: left;
 }
 
 .new {
@@ -50,7 +83,6 @@
     color: black;
     font-size: large;
     font-weight: bolder;
-    font-family: 'Comic Sans MS';
 }
 
 .date {
@@ -60,7 +92,6 @@
     color: black;
     font-size: large;
     font-weight: bold;
-    font-family: 'Comic Sans MS';
 }
 
 .edit {
@@ -76,7 +107,6 @@
     color: white;
     font-size: medium;
     font-weight: bold;
-    font-family: 'Comic Sans MS';
 }
 
 .entry {
@@ -88,5 +118,4 @@
     background-color: white;
     /* color: black; */
     color: #630089;
-    font-family: 'Comic Sans MS';
 }
