@@ -37,7 +37,7 @@ export default props => {
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <button className="btn" onClick={() => handleView(journal.title, journal.entry, journal.lesson, journal.journal_id)}>VIEW</button>
+                                <button className="btn" onClick={() => handleView(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed)}>VIEW</button>
                             </div>
                         </div>
                     </div>
@@ -47,11 +47,12 @@ export default props => {
     })
 
     //When users click on the view button, they are sent to the journal page to view the student's journal entry
-    const handleView = (title, entry, lessonNum, journal_id) => {       
+    const handleView = (journalID, title, entry, lessonNum, reviewed) => {       
+        sessionStorage.setItem("journalID", journalID)
         sessionStorage.setItem("title", title)
         sessionStorage.setItem("entry", entry)
         sessionStorage.setItem("lessonNum", lessonNum)
-        sessionStorage.setItem("journal_id", journal_id)
+        sessionStorage.setItem("reviewed", reviewed)
 
         props.onFormSwitch('journal')
     }
