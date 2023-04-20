@@ -6,7 +6,9 @@ import './css/journal.css';
 export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
-    const [journal_id, setJournal_id] = useState(null)
+    const [comment, setComment] = useState(null)
+    const [review, setReview] = useState(null)
+    const [journalID, setJournalID] = useState(null)
     const [lessonNum, setLessonNum] = useState(parseInt(sessionStorage.getItem("lessonNum")))
     const [vocabData,setVocabData]=useState([])
     let id = sessionStorage.getItem("id")
@@ -31,10 +33,11 @@ export default props => {
 
     //If the edit button was clicked, Prefills the journal page with the that journal's title, entry, & lesson number
     function setJournal() {
+        setJournalID(sessionStorage.getItem("journalID"))
         setTitle(sessionStorage.getItem("title"))
         setEntry(sessionStorage.getItem("entry"))
         setLessonNum(parseInt(sessionStorage.getItem("lessonNum")))
-        setJournal_id(sessionStorage.getItem("journal_id"))
+        setReview(sessionStorage.getItem("reviewed"))
     }
 
     //Loops through list of Vocab and populates it in the vocab sidebar
@@ -59,11 +62,12 @@ export default props => {
         fetch("http://localhost:5000/journal", {
             method: 'POST',
             headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({title, entry, id, journal_id, lessonNum})
+            body: JSON.stringify({title, entry, id, journalID, lessonNum})
         })
             .then(response => response.json())
             .catch(error => { console.log("Error: ", error) })
 
+        sessionStorage.setItem("edit", "false")
         props.onFormSwitch('entry')
     }
     
@@ -162,7 +166,7 @@ export default props => {
     } 
 
     return (
-        <form onSubmit={handleSave}  method="post" action="http://localhost:5000/entry">
+        <form onSubmit={handleSave}>
             {/* <div className="journal-container"> */}
             <div>
                 <div class="row" id="header-area">
@@ -186,23 +190,61 @@ export default props => {
                                     <input class="form-control form-control-lg" value={title} onChange={(e) => setTitle(e.target.value)} 
                                     type="text" placeholder="Enter a Title..." id="journal-title"></input>
                                 </div>
-
-                                {/* <div class="col-2">
-                                <button class="btn btn-md" id="save-btn" onClick={checkVocab}>CHECK 単語</button>
-                                </div> */}
                             </div>
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <ReactQuill  
+                            <div>
+                                {(() => {
+                                    //Default journal page for 1) New journals and 2) Editing journals that haven't been reviewed yet
+                                    if (review == "false") {
+                                        return (
+                                            <div class="col-12">
+                                                <ReactQuill
+                                                    className="Quill"
+                                                    placeholder="ここに書いてください。。。"
+                                                    value= {entry}
+                                                    onChange={setEntry}
+                                                />
+                                            </div>
+                                        )
+                                    }
+                                    
+                                    //Teacher has reviewed journal entry; Displays the original journal entry and the reviewed comments
+                                    else if (review == "true") {
+                                        console.log("Reviewed")
+                                        return (
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <ReactQuill
+                                                        className="Quill"
+                                                        placeholder="ここに書いてください。。。"
+                                                        value= {entry}
+                                                        onChange={setEntry}
+                                                    />
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <ReactQuill  
+                                                        className="Quill"
+                                                        placeholder="ここに書いてください。。。"
+                                                        value= {comment}
+                                                        onChange={setComment}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                }) ()}
+
+                                {/* <div class="col-12">
+                                    <ReactQuill
                                         className="Quill"
                                         placeholder="ここに書いてください。。。"
                                         value= {entry}
                                         onChange={setEntry}
                                     />
-                                </div>                                    
+                                </div> */}
+
                             </div>
-                        
                         </div>
 
                         <div class="col-2">
@@ -215,15 +257,7 @@ export default props => {
                         </div>
                     </div>
                 </div>
-                
             </div>
-{/* 
-            <div>
-                <h5><u>{title}</u></h5>
-                <p dangerouslySetInnerHTML={{ __html: entry }}></p>
-            </div>
-            <button type="button" onClick={checkVocab}>Check Vocabulary</button>
-            <button type='submit' onClick={checkVocab}>Save Entry</button> */}
         </form>
     );
 };

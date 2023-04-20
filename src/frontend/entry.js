@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import './css/entry.css';
-import onFormSwitch from "./App.js";
 
 export default props => {
     const [journalData,setJournalData]=useState([])
     let id = sessionStorage.getItem("id")
-    let name = sessionStorage.getItem("name")
+    let studentName = sessionStorage.getItem("studentName")
 
     useEffect(() => {
         getJournalData();
@@ -38,11 +37,11 @@ export default props => {
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <button className="btn" onClick={() => handleEdit(journal.title, journal.entry, journal.lesson, journal.journal_id)}>EDIT</button>
+                                <button className="btn" onClick={() => handleEdit(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed)}>EDIT</button>
                             </div>
 
                             <div class="col-6">
-                                <button className="btn" onClick={() => handleDelete(journal.journal_id)}>DELETE</button>
+                                <button className="btn" onClick={() => handleDelete(journal.journalID)}>DELETE</button>
                             </div>
                         </div>
                     </div>
@@ -52,38 +51,43 @@ export default props => {
     })
 
     //When users click on the edit button, they are sent to the journal page to edit their journal entry
-    const handleEdit = (title, entry, lessonNum, journal_id) => {       
+    const handleEdit = (journalID, title, entry, lessonNum, reviewed) => {       
+        sessionStorage.setItem("journalID", journalID)
         sessionStorage.setItem("title", title)
         sessionStorage.setItem("entry", entry)
         sessionStorage.setItem("lessonNum", lessonNum)
-        sessionStorage.setItem("journal_id", journal_id)
-        sessionStorage.setItem("editButton", "true")
+        sessionStorage.setItem("edit", "true")
+        sessionStorage.setItem("reviewed", reviewed)
 
-        props.onFormSwitch('userHome')
+        props.onFormSwitch('journal')
     }
 
     //When users click on the delete button, the journal entry is deleted
-    const handleDelete = (journal_id) => {       
+    const handleDelete = (journalID) => {       
         fetch("http://localhost:5000/delete",{
             method: 'POST',
             headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({journal_id})
+            body: JSON.stringify({journalID})
         })
             .then(response => response.json())
 
             .catch(error => {console.log("Error: ", error)})
 
-        props.onFormSwitch('userHome')
-        // props.onFormSwitch('entry')
+        props.onFormSwitch('journal')
     }
 
+    //Store the Lesson #
     const handleLessonNum = (lessonNum) => {
         sessionStorage.setItem("lessonNum", lessonNum)
     }
 
     //When users click on the new entry button, they are sent to the journal page to write a new journal entry
     const handleNew = () => {
-        props.onFormSwitch('userHome')
+        // sessionStorage.removeItem("journalID")
+        // sessionStorage.removeItem("title")
+        // sessionStorage.removeItem("entry")
+        sessionStorage.setItem("edit", "false")
+        props.onFormSwitch('journal')
     }
 
     return(
@@ -91,7 +95,7 @@ export default props => {
             <div class="container">
                 <div class="row" id="main-container">
                     <div class="col-8">
-                        <h2 className="entry-title">{name}'s Journal Entries</h2>
+                        <h2 className="entry-title">{studentName}'s Journal Entries</h2>
                     </div>
                     <div class="col-1">
                         {/* <div class="dropdown">
@@ -161,10 +165,7 @@ export default props => {
                             {journals}
                     </div>
                 </div>
-
-
             </div>
-            
         </form>
     )
 }

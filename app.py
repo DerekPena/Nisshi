@@ -49,7 +49,9 @@ def register():
         return jsonify({
             "status": "Registration successful",
             "id": id,
-            "name": name
+            "name": name,
+            "email": email,
+            "is_Student": is_Student
         })
 
 @app.route('/login', methods=["POST"])
@@ -75,7 +77,8 @@ def login():
             "status": "Login successful",
             "id": usrData["id"],
             "name": usrData["name"],
-            "email": usrData["email"]
+            "email": usrData["email"],
+            "is_Student": usrData["is_Student"]
         })
     
 @app.route('/account', methods=["POST"])
@@ -106,23 +109,25 @@ def journal():
         usr_id = body["id"]
         
         #Make a new journal entry
-        if body["journal_id"] is None:
+        if body["journalID"] is None:
             id = ''.join(random.choices(string.digits, k=10))
+            reviewed = False
 
             journalList.insert_one({
             "id": id,
+            "usr_id": usr_id,
             "title": title,
             "entry": entry,
             "lesson": lesson,
             "date": date,
-            "usr_id": usr_id
+            "reviewed": reviewed
             })
 
             return jsonify({"status": "Journal entry is saved to MongoDB"})
 
         #Update an old journal entry
         else:
-            id = body["journal_id"]
+            id = body["journalID"]
 
             journalList.update_one({"id": id}, {"$set": {"title": title}})
             journalList.update_one({"id": id}, {"$set": {"entry": entry}})
@@ -142,18 +147,20 @@ def entry():
         journalData = []
 
         for journal in journals:
-            journal_id = journal["id"]
+            journalID = journal["id"]
             title = journal["title"]
             entry = journal["entry"]
             lesson = journal["lesson"]
             date = journal["date"]
+            reviewed = journal["reviewed"]
 
             journalDict = {
-                "journal_id": journal_id,
+                "journalID": journalID,
                 "title": title,
                 "lesson": lesson,
                 "entry": entry,
                 "date": date,
+                "reviewed": reviewed
             }
             journalData.append(journalDict)
 
@@ -165,9 +172,9 @@ def delete():
     #Delete journal entry
     if request.method == "POST":
         body = request.json
-        journal_id = body["journal_id"]
+        journalID = body["journalID"]
 
-        journalList.delete_one({"id": journal_id})
+        journalList.delete_one({"id": journalID})
 
         return jsonify({"status": "Journal entry deleted"})
 
@@ -205,6 +212,29 @@ def vocab():
             vocabData.append(vocabDict)
 
         return jsonify(vocabData)
+
+@app.route('/teacher', methods=["POST"])
+@cross_origin(origin="*")
+def teacher():
+    #Return a list of student users
+    if request.method == "POST":
+        body = request.json
+        id = body["id"]
+
+        studentList = userList.find({"is_Student": True}).sort("name", 1)
+        students = []
+
+        for student in studentList:
+            student_id = student["id"]
+            name = student["name"]
+
+            studentDict = {
+                "student_id": student_id,
+                "name": name
+            }
+            students.append(studentDict)
+
+        return jsonify(students)
 
 if __name__ == "__main__":
     app.run(debug=True)
