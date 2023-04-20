@@ -16,16 +16,23 @@ export default props => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 if (data["error"] === "error"){
                     console.log("Incorrect email or password")
                 }
-
                 else {
-                    sessionStorage.setItem("id", data["id"])
-                    sessionStorage.setItem("name", data["name"])
+                    sessionStorage.setItem("id", data["id"])                   
                     sessionStorage.setItem("email", data["email"])
-                    props.onFormSwitch('entry')
+
+                    if(data["is_Student"]){
+                        sessionStorage.setItem("studentName", data["name"])
+                        sessionStorage.setItem("userType", "Student")
+                        props.onFormSwitch('entry')
+                    }
+                    else{
+                        sessionStorage.setItem("teacherName", data["name"])
+                        sessionStorage.setItem("userType", "Teacher")
+                        props.onFormSwitch('teacher')
+                    }
                 }
             })
             .catch(error => {console.log("Error: ", error)})

@@ -18,20 +18,29 @@ export default props => {
             .then(response => response.json())
             .then(data => {
                 sessionStorage.setItem("id", data["id"])
-                sessionStorage.setItem("name", data["name"])
+                sessionStorage.setItem("email", data["email"])
+
+                if(data["is_Student"]){
+                    sessionStorage.setItem("studentName", data["name"])
+                    sessionStorage.setItem("userType", "Student")
+                    props.onFormSwitch('entry')
+                }
+                else{
+                    sessionStorage.setItem("teacherName", data["name"])
+                    sessionStorage.setItem("userType", "Teacher")
+                    props.onFormSwitch('teacher')
+                }
             })
             .catch(error => {console.log("Error: ", error)})
-        
-        props.onFormSwitch('entry')
     }
 
     return (
-        <form onSubmit={handleRegister} className="login-form" method="post" action="http://localhost:5000/users">
+        <form onSubmit={handleRegister} className="login-form">
 
             <div class="container" id="auth-block">
                 <h2 id="header">REGISTER</h2>
                 <row>
-                    <input type="username" class="inputEntry input-field" id="username" placeholder="Name" onChange={(e) => setEmail(e.target.value)} name="username"/>
+                    <input type="username" class="inputEntry input-field" id="username" placeholder="Name" onChange={(e) => setName(e.target.value)} name="username"/>
                     <label class="labelEntry" for="username">Name</label>
                 </row>
 

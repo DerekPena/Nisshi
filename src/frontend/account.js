@@ -48,12 +48,8 @@ export default props => {
                     <div class="col-12">
                        <button type="submit" class="btn btn-lg">Update</button> 
                     </div>
-                    
                 </div>
-
-                
             </div>
-            
         </form>
     )
 }
