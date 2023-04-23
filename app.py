@@ -112,6 +112,7 @@ def journal():
         if body["journalID"] is None:
             id = ''.join(random.choices(string.digits, k=10))
             reviewed = False
+            corrections = None
 
             journalList.insert_one({
             "id": id,
@@ -120,10 +121,11 @@ def journal():
             "entry": entry,
             "lesson": lesson,
             "date": date,
-            "reviewed": reviewed
+            "reviewed": reviewed,
+            "corrections": corrections
             })
 
-            return jsonify({"status": "Journal entry is saved to MongoDB"})
+            return jsonify({"status": "Journal entry is saved"})
 
         #Update an old journal entry
         else:
@@ -133,7 +135,7 @@ def journal():
             journalList.update_one({"id": id}, {"$set": {"entry": entry}})
             journalList.update_one({"id": id}, {"$set": {"date": date}})
 
-            return jsonify({"status": "Journal entry is updated to MongoDB"})
+            return jsonify({"status": "Journal entry is updated"})
 
 @app.route('/entry', methods=["POST"])
 @cross_origin(origin="*")
@@ -153,6 +155,7 @@ def entry():
             lesson = journal["lesson"]
             date = journal["date"]
             reviewed = journal["reviewed"]
+            corrections = journal["corrections"]
 
             journalDict = {
                 "journalID": journalID,
@@ -160,7 +163,8 @@ def entry():
                 "lesson": lesson,
                 "entry": entry,
                 "date": date,
-                "reviewed": reviewed
+                "reviewed": reviewed,
+                "corrections": corrections
             }
             journalData.append(journalDict)
 
@@ -235,6 +239,21 @@ def teacher():
             students.append(studentDict)
 
         return jsonify(students)
+
+@app.route('/corrections', methods=["POST"])
+@cross_origin(origin="*")
+def corrections():
+    #Add teacher corrections to journal entry
+    if request.method == "POST":
+        body = request.json
+        id = body["journalID"]
+        corrections = body["corrections"]
+
+        #Update an old journal entry
+        journalList.update_one({"id": id}, {"$set": {"reviewed": True}})
+        journalList.update_one({"id": id}, {"$set": {"corrections": corrections}})
+
+        return jsonify({"status": "Corrections is updated to the journal entry"})
 
 if __name__ == "__main__":
     app.run(debug=True)

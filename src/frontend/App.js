@@ -34,6 +34,8 @@ function App() {
                 sessionStorage.removeItem("title")
                 sessionStorage.removeItem("entry")
                 sessionStorage.removeItem("journalID")
+                sessionStorage.removeItem("reviewed")
+                sessionStorage.removeItem("corrections")
                 setCurrentForm(formName);
             }
         }

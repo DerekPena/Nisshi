@@ -6,12 +6,13 @@ import './css/journal.css';
 export default props => {
     const [title, setTitle] = useState(null)
     const [entry, setEntry] = useState(null)
-    const [comment, setComment] = useState(null)
+    const [corrections, setCorrections] = useState(null)
     const [review, setReview] = useState(null)
     const [journalID, setJournalID] = useState(null)
     const [lessonNum, setLessonNum] = useState(parseInt(sessionStorage.getItem("lessonNum")))
     const [vocabData,setVocabData]=useState([])
     let id = sessionStorage.getItem("id")
+    let user = sessionStorage.getItem("userType")
 
     useEffect(() => {
         setJournal();
@@ -38,37 +39,55 @@ export default props => {
         setEntry(sessionStorage.getItem("entry"))
         setLessonNum(parseInt(sessionStorage.getItem("lessonNum")))
         setReview(sessionStorage.getItem("reviewed"))
+        setCorrections(sessionStorage.getItem("corrections"))
     }
+
+    // const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    // const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    
 
     //Loops through list of Vocab and populates it in the vocab sidebar
     const vocab=vocabData.map( vocab =>{
         return <div key={vocab.id}>
-            {/* <p className="vocab" onMouseOver={() => handleMouseOver(vocab.kanji, vocab.definition)} onMouseLeave={() => handleMouseLeave()}>{vocab.tango}</p> */}
-            <div className="vocab">
+            <div className="vocab" data-toggle = "tooltip" data-placement="right" title={vocab.kanji + "  ;  " + vocab.definition} data-content="hi">
                 {vocab.tango}
-
-                {/* <div className='tooltiptext'> 
-                    {vocab.kanji} 
-                    {vocab.definition}
-                </div> */}
             </div>
+
+            {/* <div className="vocab" title={vocab.kanji + "  ;  " + vocab.definition}>
+                {vocab.tango}
+            </div> */}
         </div>
     })
 
-    //Saves the journal entry
+    //Save button
     const handleSave = (e) => {
         e.preventDefault();
 
-        fetch("http://localhost:5000/journal", {
-            method: 'POST',
-            headers: { 'Content-type': 'application/json' },
-            body: JSON.stringify({title, entry, id, journalID, lessonNum})
-        })
-            .then(response => response.json())
-            .catch(error => { console.log("Error: ", error) })
+        //Save student journal entry
+        if(user === "Student"){
+            fetch("http://localhost:5000/journal", {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({title, entry, id, journalID, lessonNum})
+            })
+                .then(response => response.json())
+                .catch(error => { console.log("Error: ", error) })
 
-        sessionStorage.setItem("edit", "false")
-        props.onFormSwitch('entry')
+            props.onFormSwitch('entry')
+        }
+
+        //Save teacher corrections
+        else if (user === "Teacher"){
+            fetch("http://localhost:5000/corrections", {
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({journalID, corrections})
+            })
+                .then(response => response.json())
+                .catch(error => { console.log("Error: ", error) })
+
+                props.onFormSwitch('studentEntry')
+        }
     }
     
     function checkVocab() {
@@ -163,7 +182,20 @@ export default props => {
                 } 
         } 
         setEntry(settingEntry);
-    } 
+    }
+
+    const editorStyle = {
+        backgroundColor: "#f2f2f2",
+      }
+
+      const modules = {
+        toolbar: true,
+        clipboard: {
+          // set the background color of the editor
+          // (note that this property is camelCase, not kebab-case)
+          backgroundColor: "#f2f2f2",
+        },
+      }
 
     return (
         <form onSubmit={handleSave}>
@@ -194,26 +226,12 @@ export default props => {
 
                             <div>
                                 {(() => {
-                                    //Default journal page for 1) New journals and 2) Editing journals that haven't been reviewed yet
-                                    if (review == "false") {
-                                        return (
-                                            <div class="col-12">
-                                                <ReactQuill
-                                                    className="Quill"
-                                                    placeholder="ここに書いてください。。。"
-                                                    value= {entry}
-                                                    onChange={setEntry}
-                                                />
-                                            </div>
-                                        )
-                                    }
-                                    
-                                    //Teacher has reviewed journal entry; Displays the original journal entry and the reviewed comments
-                                    else if (review == "true") {
-                                        console.log("Reviewed")
-                                        return (
-                                            <div class="row">
-                                                <div class="col-6">
+                                    //Student-view journal page
+                                    if (user === "Student"){
+                                        //Case 2: Editing journals that haven't been reviewed yet
+                                        if (review == "false") {
+                                            return (
+                                                <div class="col-12">
                                                     <ReactQuill
                                                         className="Quill"
                                                         placeholder="ここに書いてください。。。"
@@ -221,13 +239,78 @@ export default props => {
                                                         onChange={setEntry}
                                                     />
                                                 </div>
+                                            )
+                                        }
+                                        
+                                        //Case 3: Journal page with dual text boxes: Left) Journal entry & Right) Read-only teacher's corrections
+                                        else if (review == "true") {
+                                            console.log("Reviewed")
+                                            return (
+                                                <div class="row" >
+                                                    <div class="col-6">
+                                                        <ReactQuill
+                                                            className="Quill"
+                                                            placeholder="ここに書いてください。。。"
+                                                            value= {entry}
+                                                            onChange={setEntry}
+                                                        />
+                                                    </div>
+
+                                                    <div class="col-6">
+                                                        <ReactQuill
+                                                            className="Quill"
+                                                            id="ql-editor"
+                                                            placeholder="ここに書いてください。。。"
+                                                            value= {corrections}
+                                                            onChange={setCorrections}
+                                                            readOnly
+                                                            theme="bubble"
+                                                            modules={{ toolbar: false }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+
+                                        //Default case 1: New journal entry
+                                        else{
+                                            return (
+                                                <div class="col-12">
+                                                    <ReactQuill
+                                                        className="Quill"
+                                                        placeholder="ここに書いてください。。。"
+                                                        value= {entry}
+                                                        onChange={setEntry}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                    }
+
+                                    //Teacher-view journal page
+                                    else if (user === "Teacher"){
+                                        return (
+                                            //Journal page with dual text boxes: Left) Read-only student journal entry & Right) Corrections
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <ReactQuill
+                                                        className={["Quill"]}
+                                                        id="ql-editor"
+                                                        placeholder="ここに書いてください。。。"
+                                                        value= {entry}
+                                                        onChange={setEntry}
+                                                        readOnly
+                                                        theme="bubble"
+                                                        modules={{ toolbar: false }}
+                                                    />
+                                                </div>
 
                                                 <div class="col-6">
                                                     <ReactQuill  
                                                         className="Quill"
                                                         placeholder="ここに書いてください。。。"
-                                                        value= {comment}
-                                                        onChange={setComment}
+                                                        value= {corrections}
+                                                        onChange={setCorrections}
                                                     />
                                                 </div>
                                             </div>

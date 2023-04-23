@@ -37,7 +37,7 @@ export default props => {
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-6">
-                                <button className="btn" onClick={() => handleEdit(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed)}>EDIT</button>
+                                <button className="btn" onClick={() => handleEdit(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed, journal.corrections)}>EDIT</button>
                             </div>
 
                             <div class="col-6">
@@ -51,13 +51,14 @@ export default props => {
     })
 
     //When users click on the edit button, they are sent to the journal page to edit their journal entry
-    const handleEdit = (journalID, title, entry, lessonNum, reviewed) => {       
+    const handleEdit = (journalID, title, entry, lessonNum, reviewed, corrections) => {       
         sessionStorage.setItem("journalID", journalID)
         sessionStorage.setItem("title", title)
         sessionStorage.setItem("entry", entry)
         sessionStorage.setItem("lessonNum", lessonNum)
         sessionStorage.setItem("edit", "true")
         sessionStorage.setItem("reviewed", reviewed)
+        sessionStorage.setItem("corrections", corrections)
 
         props.onFormSwitch('journal')
     }
@@ -70,7 +71,6 @@ export default props => {
             body: JSON.stringify({journalID})
         })
             .then(response => response.json())
-
             .catch(error => {console.log("Error: ", error)})
 
         props.onFormSwitch('journal')
@@ -83,9 +83,6 @@ export default props => {
 
     //When users click on the new entry button, they are sent to the journal page to write a new journal entry
     const handleNew = () => {
-        // sessionStorage.removeItem("journalID")
-        // sessionStorage.removeItem("title")
-        // sessionStorage.removeItem("entry")
         sessionStorage.setItem("edit", "false")
         props.onFormSwitch('journal')
     }

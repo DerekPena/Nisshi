@@ -37,7 +37,7 @@ export default props => {
                     <div class="card-footer">
                         <div class="row">
                             <div class="col-12">
-                                <button className="btn" onClick={() => handleView(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed)}>VIEW</button>
+                                <button className="btn" onClick={() => handleView(journal.journalID, journal.title, journal.entry, journal.lesson, journal.reviewed, journal.corrections)}>VIEW</button>
                             </div>
                         </div>
                     </div>
@@ -47,12 +47,13 @@ export default props => {
     })
 
     //When users click on the view button, they are sent to the journal page to view the student's journal entry
-    const handleView = (journalID, title, entry, lessonNum, reviewed) => {       
+    const handleView = (journalID, title, entry, lessonNum, reviewed, corrections) => {       
         sessionStorage.setItem("journalID", journalID)
         sessionStorage.setItem("title", title)
         sessionStorage.setItem("entry", entry)
         sessionStorage.setItem("lessonNum", lessonNum)
         sessionStorage.setItem("reviewed", reviewed)
+        sessionStorage.setItem("corrections", corrections)
 
         props.onFormSwitch('journal')
     }
@@ -61,9 +62,13 @@ export default props => {
         <form className="entry-container">
             <div class="container">
                 <div class="row" id="main-container">
-                    <div class="col-12">
+                    <div class="col-10">
                         <h2 className="entry-title">{studentName}'s Journal Entries</h2>
-                    </div>                    
+                    </div>
+
+                    <div class="col-2">
+                        <button className="btn" onClick={() => props.onFormSwitch('teacher')}>BACK</button>
+                    </div>            
                     
                     <div class="row row-cols-1 row-cols-md-3 gy-4 g-4">
                             {journals}
