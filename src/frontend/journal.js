@@ -102,7 +102,6 @@ export default props => {
         //Following line of code is to preserve formatting when users copy vocabulary from the word bank
         settingEntry = settingEntry.replaceAll("<strong style=\"background-color: rgb(255, 247, 237); color: rgb(43, 17, 7);\">", "");
         settingEntry = settingEntry.replaceAll("</strong>", "");
-        console.log(settingEntry);
         let runningEntry = settingEntry;
         let replacement = "";
 
@@ -118,6 +117,10 @@ export default props => {
                         {
                             word = vocabData[key].tango;
                             wordKanji = vocabData[key].kanji;
+                            if(wordKanji == null)
+                            {
+                                wordKanji = "nulldatainvalidkanji";
+                            }
                             index = runningEntry.indexOf(word);
                             indexKanji = runningEntry.indexOf(wordKanji);
                             if(index != -1)
@@ -143,8 +146,8 @@ export default props => {
                                 replacement = "";
                             } 
                             else {
-                                word = word.replace("る", "");
-                                wordKanji = wordKanji.replace("る", "");
+                                word = word.substring(0, word.length-1);
+                                wordKanji = wordKanji.substring(0, wordKanji.length-1);
                                 index = runningEntry.indexOf(word);
                                 indexKanji = runningEntry.indexOf(wordKanji);
                                 if(index != -1)
@@ -226,6 +229,131 @@ export default props => {
                     else if(vocabData[key].type == "u")
                     {
                         //U-verbs
+                        index = 1;
+                        indexKanji = 1;
+                        while(index != -1 || indexKanji != -1)
+                        {
+                            word = vocabData[key].tango;
+                            wordKanji = vocabData[key].kanji;
+                            if(wordKanji == null)
+                            {
+                                wordKanji = "nulldatainvalidkanji";
+                            }
+                            index = runningEntry.indexOf(word);
+                            indexKanji = runningEntry.indexOf(wordKanji);
+                            if(index != -1)
+                            {
+                                settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                runningEntry = runningEntry.replace(word, replacement);
+                                replacement = "";
+                            }
+                            else if(indexKanji != -1)
+                            {
+                                settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                runningEntry = runningEntry.replace(wordKanji, replacement);
+                                replacement = "";
+                                console.log(word);
+                            } 
+                            else {
+                                //must be updated for different u-verbs
+                                if(word[word.length-1] == "く")
+                                {
+                                    word = word.substring(0, word.length-1) + "き";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "き";
+                                }
+                                else if(word[word.length-1] == "ぐ")
+                                {
+                                    word = word.substring(0, word.length-1) + "ぎ";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "ぎ";
+                                }
+                                console.log(word);
+                                index = runningEntry.indexOf(word);
+                                indexKanji = runningEntry.indexOf(wordKanji);
+                                if(index != -1)
+                                {
+                                    if(runningEntry.substring(index + word.length, index + word.length + 2) == "ます")
+                                    {
+                                        word = word + "ます";
+                                        conjugated = true;
+                                    }
+                                    else if(runningEntry.substring(index + word.length, index + word.length + 3) == "ません")
+                                    {
+                                        word = word + "ません";
+                                        conjugated = true;
+                                    }
+                                    if(conjugated)
+                                    {
+                                        settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                        runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                        for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(word, replacement);
+                                        replacement = "";
+                                        conjugated = false;
+                                    }
+                                    else {
+                                        console.log("NOT CONJUGATED");
+                                        settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                        runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                        for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(word, replacement);
+                                        replacement = ""; 
+                                    }
+                                    
+                                }
+                                else if(indexKanji != -1)
+                                {
+                                    if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 2) == "ます")
+                                    {
+                                        wordKanji = wordKanji + "ます";
+                                        conjugated = true;
+                                    }
+                                    else if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 3) == "ません")
+                                    {
+                                        wordKanji = wordKanji + "ません";
+                                        conjugated = true;
+                                    }
+                                    if(conjugated)
+                                    {
+                                        settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                        runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                        for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(wordKanji, replacement);
+                                        replacement = "";
+                                        conjugated = false;
+                                    }
+                                    else {
+                                        console.log("NOT CONJUGATED");
+                                        settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                        runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                        for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(wordKanji, replacement);
+                                        replacement = "";
+                                    }
+                                }
+                            }
+                        }
                     }
                     else{
                         // Need to account for irregular verbs
@@ -245,6 +373,10 @@ export default props => {
                         {
                             word = vocabData[key].tango;
                             wordKanji = vocabData[key].kanji;
+                            if(wordKanji == null)
+                            {
+                                wordKanji = "nulldatainvalidkanji";
+                            }
                             index = runningEntry.indexOf(word);
                             indexKanji = runningEntry.indexOf(wordKanji);
                             if(index != -1)
@@ -272,7 +404,6 @@ export default props => {
                         }
                 }
         }
-        console.log(settingEntry);
         setEntry(settingEntry);
     }
 
