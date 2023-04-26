@@ -112,7 +112,7 @@ def journal():
         if body["journalID"] is None:
             id = ''.join(random.choices(string.digits, k=10))
             reviewed = False
-            corrections = None
+            corrections = ""
 
             journalList.insert_one({
             "id": id,

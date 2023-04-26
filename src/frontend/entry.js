@@ -152,7 +152,7 @@ export default props => {
                             <option value="23">L23</option>
                             <option value="24">L24</option>
                         </select>
-                    </div>                     
+                    </div>
 
                     <div class="col-3">
                         <button className="btn" onClick={() => handleNew()}>NEW ENTRY</button>
