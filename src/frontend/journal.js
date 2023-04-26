@@ -175,7 +175,7 @@ export default props => {
                                         conjugated = false;
                                     }
                                     else {
-                                        console.log("NOT CONJUGATED");
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
                                         settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
                                         runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
                                         for(let i = 0; i < word.length; i++)
@@ -189,12 +189,12 @@ export default props => {
                                 }
                                 else if(indexKanji != -1)
                                 {
-                                    if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 2) == "ます")
+                                    if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 2) == "ます")
                                     {
                                         wordKanji = wordKanji + "ます";
                                         conjugated = true;
                                     }
-                                    else if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 3) == "ません")
+                                    else if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 3) == "ません")
                                     {
                                         wordKanji = wordKanji + "ません";
                                         conjugated = true;
@@ -212,7 +212,7 @@ export default props => {
                                         conjugated = false;
                                     }
                                     else {
-                                        console.log("NOT CONJUGATED");
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
                                         settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
                                         runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
                                         for(let i = 0; i < wordKanji.length; i++)
@@ -226,9 +226,9 @@ export default props => {
                             }
                         }
                     }
-                    else if(vocabData[key].type == "u")
+                    else if(vocabData[key].type2 == "u")
                     {
-                        //U-verbs
+                        //U-verbs WORK IN PROGRESS
                         index = 1;
                         indexKanji = 1;
                         while(index != -1 || indexKanji != -1)
@@ -262,11 +262,14 @@ export default props => {
                                         }
                                 runningEntry = runningEntry.replace(wordKanji, replacement);
                                 replacement = "";
-                                console.log(word);
                             } 
                             else {
-                                //must be updated for different u-verbs
-                                if(word[word.length-1] == "く")
+                                if(word[word.length-1] == "う")
+                                {
+                                    word = word.substring(0, word.length-1) + "い";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "い";
+                                }
+                                else if(word[word.length-1] == "く")
                                 {
                                     word = word.substring(0, word.length-1) + "き";
                                     wordKanji = wordKanji.substring(0, wordKanji.length-1) + "き";
@@ -276,7 +279,163 @@ export default props => {
                                     word = word.substring(0, word.length-1) + "ぎ";
                                     wordKanji = wordKanji.substring(0, wordKanji.length-1) + "ぎ";
                                 }
-                                console.log(word);
+                                else if(word[word.length-1] == "す")
+                                {
+                                    word = word.substring(0, word.length-1) + "し";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "し";
+                                }
+                                else if(word[word.length-1] == "つ")
+                                {
+                                    word = word.substring(0, word.length-1) + "ち";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "ち";
+                                }
+                                else if(word[word.length-1] == "ぬ")
+                                {
+                                    word = word.substring(0, word.length-1) + "に";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "に";
+                                }
+                                else if(word[word.length-1] == "ぶ")
+                                {
+                                    word = word.substring(0, word.length-1) + "び";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "び";
+                                }
+                                else if(word[word.length-1] == "む")
+                                {
+                                    word = word.substring(0, word.length-1) + "み";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "み";
+                                }
+                                else if(word[word.length-1] == "る")
+                                {
+                                    word = word.substring(0, word.length-1) + "り";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1) + "り";
+                                }
+                                index = runningEntry.indexOf(word);
+                                indexKanji = runningEntry.indexOf(wordKanji);
+                                console.log(word, index);
+                                console.log(runningEntry);
+                                if(index != -1)
+                                {
+                                    if(runningEntry.substring(index + word.length, index + word.length + 2) == "ます")
+                                    {
+                                        word = word + "ます";
+                                        conjugated = true;
+                                    }
+                                    else if(runningEntry.substring(index + word.length, index + word.length + 3) == "ません")
+                                    {
+                                        word = word + "ません";
+                                        conjugated = true;
+                                    }
+                                    if(conjugated)
+                                    {
+                                        settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                        runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                        for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(word, replacement);
+                                        replacement = "";
+                                        conjugated = false;
+                                    }
+                                    else {
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
+                                        settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                        runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                        for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(word, replacement);
+                                        replacement = ""; 
+                                    }
+                                    
+                                }
+                                else if(indexKanji != -1)
+                                {
+                                    if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 2) == "ます")
+                                    {
+                                        wordKanji = wordKanji + "ます";
+                                        conjugated = true;
+                                    }
+                                    else if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 3) == "ません")
+                                    {
+                                        wordKanji = wordKanji + "ません";
+                                        conjugated = true;
+                                    }
+                                    if(conjugated)
+                                    {
+                                        settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                        runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                        for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(wordKanji, replacement);
+                                        replacement = "";
+                                        conjugated = false;
+                                    }
+                                    else {
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
+                                        settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                        runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                        for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                        runningEntry = runningEntry.replace(wordKanji, replacement);
+                                        replacement = "";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else{
+                        //Irregular verbs, bug in lesson 3 as suru and kuru are vocab words. Cannot use other words that include these verbs in them properly.
+                        index = 1;
+                        indexKanji = 1;
+                        while(index != -1 || indexKanji != -1)
+                        {
+                            word = vocabData[key].tango;
+                            wordKanji = vocabData[key].kanji;
+                            if(wordKanji == null)
+                            {
+                                wordKanji = "nulldatainvalidkanji";
+                            }
+                            index = runningEntry.indexOf(word);
+                            indexKanji = runningEntry.indexOf(wordKanji);
+                            if(index != -1)
+                            {
+                                settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
+                                runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
+                                for(let i = 0; i < word.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                runningEntry = runningEntry.replace(word, replacement);
+                                replacement = "";
+                            }
+                            else if(indexKanji != -1)
+                            {
+                                settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
+                                runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(255, 180, 0);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
+                                for(let i = 0; i < wordKanji.length; i++)
+                                        {
+                                            replacement = replacement + "X";
+                                        }
+                                runningEntry = runningEntry.replace(wordKanji, replacement);
+                                replacement = "";
+                            } 
+                            else {
+                                if(word.substring(word.length-2) == "する")
+                                {
+                                    word = word.substring(0, word.length-2) + "し";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-2) + "し";
+                                }
+                                else if(word.substring(word.length-2) == "くる")
+                                {
+                                    word = "き";
+                                    wordKanji = wordKanji.substring(0, wordKanji.length-1);
+                                }
                                 index = runningEntry.indexOf(word);
                                 indexKanji = runningEntry.indexOf(wordKanji);
                                 if(index != -1)
@@ -304,7 +463,7 @@ export default props => {
                                         conjugated = false;
                                     }
                                     else {
-                                        console.log("NOT CONJUGATED");
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
                                         settingEntry = (settingEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(index, index + word.length) + "</strong>" + settingEntry.slice(index + word.length));
                                         runningEntry = (runningEntry.slice(0, index) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(index, index + word.length) + "</strong>" + runningEntry.slice(index + word.length));
                                         for(let i = 0; i < word.length; i++)
@@ -318,12 +477,12 @@ export default props => {
                                 }
                                 else if(indexKanji != -1)
                                 {
-                                    if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 2) == "ます")
+                                    if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 2) == "ます")
                                     {
                                         wordKanji = wordKanji + "ます";
                                         conjugated = true;
                                     }
-                                    else if(settingEntry.substring(index + wordKanji.length, index + wordKanji.length + 3) == "ません")
+                                    else if(runningEntry.substring(indexKanji + wordKanji.length, indexKanji + wordKanji.length + 3) == "ません")
                                     {
                                         wordKanji = wordKanji + "ません";
                                         conjugated = true;
@@ -341,7 +500,7 @@ export default props => {
                                         conjugated = false;
                                     }
                                     else {
-                                        console.log("NOT CONJUGATED");
+                                        console.log("NOT CONJUGATED OR UNRECOGNIZED FORM");
                                         settingEntry = (settingEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + settingEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + settingEntry.slice(indexKanji + wordKanji.length));
                                         runningEntry = (runningEntry.slice(0, indexKanji) + "<strong style=\"color: rgb(30, 144, 255);\">" + runningEntry.slice(indexKanji, indexKanji + wordKanji.length) + "</strong>" + runningEntry.slice(indexKanji + wordKanji.length));
                                         for(let i = 0; i < wordKanji.length; i++)
@@ -354,9 +513,6 @@ export default props => {
                                 }
                             }
                         }
-                    }
-                    else{
-                        // Need to account for irregular verbs
                     }
                 }
                 else if (vocabData[key].type == "adjective")
