@@ -311,8 +311,6 @@ export default props => {
                                 }
                                 index = runningEntry.indexOf(word);
                                 indexKanji = runningEntry.indexOf(wordKanji);
-                                console.log(word, index);
-                                console.log(runningEntry);
                                 if(index != -1)
                                 {
                                     if(runningEntry.substring(index + word.length, index + word.length + 2) == "ます")
@@ -515,10 +513,10 @@ export default props => {
                         }
                     }
                 }
-                else if (vocabData[key].type == "adjective")
-                {
-                    //adjectives
-                }
+                // else if (vocabData[key].type == "adjective")
+                // {
+                //     //adjectives
+                // }
                 else
                 {
                     index = 1;
